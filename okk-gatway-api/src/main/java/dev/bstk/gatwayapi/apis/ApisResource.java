@@ -14,6 +14,6 @@ public class ApisResource {
 
     @GET
     public Response apis() {
-        return Response.ok("Consula Api").build();
+        return Response.ok("Consulta Api").build();
     }
 }
