@@ -13,6 +13,8 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.bstk.gatwayapi.domain.helper.HttpStatusHelper.*;
+
 @ApplicationScoped
 public class ApisService {
 
@@ -32,17 +34,17 @@ public class ApisService {
                 itemRequest.getNomeApiExterna());
 
             /// TODO: CASO DE SUCESSO
-            if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+            if (ok(response.getStatus())) {
                 itemResponse.setResponse(response.readEntity(Object.class));
             }
 
             /// TODO: CASO DE ERRO CLIENTE
-            if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+            if (clientError(response.getStatus())) {
                 itemResponse.setResponse("OBJETO_CONTENDO_ERRO_CLIENTE");
             }
 
             /// TODO: CASO DE ERRO SERVIDOR
-            if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+            if (serverError(response.getStatus())) {
                 itemResponse.setResponse("OBJETO_CONTENDO_ERRO_SERVIDOR");
             }
 
