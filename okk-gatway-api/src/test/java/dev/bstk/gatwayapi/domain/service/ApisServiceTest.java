@@ -57,7 +57,7 @@ class ApisServiceTest {
     }
 
     @Test
-    void deveConsultarDadosDeApiParaUmCasoDoClientError() {
+    void deveRetornarDadosConsultaApiParaUmCasoDoClientError() {
         mockResponse(Response.status(Response.Status.BAD_REQUEST).build());
 
         final ConsultaApiRequest request = request();
@@ -74,6 +74,27 @@ class ApisServiceTest {
         response.getDados().forEach(item -> {
             Assertions.assertInstanceOf(String.class, item.getResponse());
             Assertions.assertEquals("OBJETO_CONTENDO_ERRO_CLIENTE", item.getResponse());
+        });
+    }
+
+    @Test
+    void deveRetornarDadosConsultaDeApiParaUmCasoDoServerError() {
+        mockResponse(Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
+
+        final ConsultaApiRequest request = request();
+        final ConsultaApiResponse response = apisService.consultar(request);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getDados());
+        Assertions.assertNotNull(response.getDataHoraRequest());
+
+        Assertions.assertFalse(response.getDados().isEmpty());
+
+        Assertions.assertEquals(response.getDados().size(), request.getApis().size());
+
+        response.getDados().forEach(item -> {
+            Assertions.assertInstanceOf(String.class, item.getResponse());
+            Assertions.assertEquals("OBJETO_CONTENDO_ERRO_SERVIDOR", item.getResponse());
         });
     }
 
