@@ -1,4 +1,4 @@
-package dev.bstk.gatwayapi.apis.response;
+package dev.bstk.gatwayapi.resource.response;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbProperty;

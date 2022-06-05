@@ -1,4 +1,4 @@
-package dev.bstk.gatwayapi.apis.response;
+package dev.bstk.gatwayapi.resource.response;
 
 import org.hibernate.validator.constraints.URL;
 

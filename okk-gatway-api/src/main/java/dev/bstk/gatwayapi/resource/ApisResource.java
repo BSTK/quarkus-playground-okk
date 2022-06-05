@@ -1,4 +1,4 @@
-package dev.bstk.gatwayapi.apis;
+package dev.bstk.gatwayapi.resource;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

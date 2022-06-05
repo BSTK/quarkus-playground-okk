@@ -1,4 +1,4 @@
-package dev.bstk.gatwayapi.apis.request;
+package dev.bstk.gatwayapi.resource.request;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotBlank;

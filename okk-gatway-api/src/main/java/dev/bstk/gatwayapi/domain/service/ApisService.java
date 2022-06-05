@@ -1,9 +1,9 @@
-package dev.bstk.gatwayapi.apis;
+package dev.bstk.gatwayapi.domain.service;
 
-import dev.bstk.gatwayapi.apis.request.ConsultaApiItemRequest;
-import dev.bstk.gatwayapi.apis.request.ConsultaApiRequest;
-import dev.bstk.gatwayapi.apis.response.ConsultaApiDadosItemResponse;
-import dev.bstk.gatwayapi.apis.response.ConsultaApiResponse;
+import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
+import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
+import dev.bstk.gatwayapi.resource.response.ConsultaApiDadosItemResponse;
+import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
