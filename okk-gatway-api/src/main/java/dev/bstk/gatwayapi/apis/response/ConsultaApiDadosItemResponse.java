@@ -11,31 +11,29 @@ public class ConsultaApiDadosItemResponse implements Serializable {
 
     @NotBlank
     @JsonbProperty("nome_api_externa")
-    private String nomeApiExterna;
+    private final String nomeApiExterna;
 
     @URL
     @NotBlank
     @JsonbProperty("url")
-    private String url;
+    private final String url;
 
     @NotNull
     @JsonbProperty("response")
     private Object response;
 
+    public ConsultaApiDadosItemResponse(final String nomeApiExterna,
+                                        final String url) {
+        this.nomeApiExterna = nomeApiExterna;
+        this.url = url;
+    }
+
     public String getNomeApiExterna() {
         return nomeApiExterna;
     }
 
-    public void setNomeApiExterna(String nomeApiExterna) {
-        this.nomeApiExterna = nomeApiExterna;
-    }
-
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public Object getResponse() {

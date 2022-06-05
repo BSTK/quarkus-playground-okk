@@ -10,24 +10,21 @@ public class ConsultaApiResponse implements Serializable {
 
     @JsonbProperty("data_hora_request")
     @JsonbDateFormat("dd-MM-yyyy hh:mm:ss:sss")
-    private LocalDateTime dataHoraRequest;
+    private final LocalDateTime dataHoraRequest;
 
     @JsonbProperty("dados")
-    private List<ConsultaApiDadosItemResponse> dados;
+    private final List<ConsultaApiDadosItemResponse> dados;
+
+    public ConsultaApiResponse(final List<ConsultaApiDadosItemResponse> dados) {
+        this.dataHoraRequest = LocalDateTime.now();
+        this.dados = dados;
+    }
 
     public LocalDateTime getDataHoraRequest() {
         return dataHoraRequest;
     }
 
-    public void setDataHoraRequest(LocalDateTime dataHoraRequest) {
-        this.dataHoraRequest = dataHoraRequest;
-    }
-
     public List<ConsultaApiDadosItemResponse> getDados() {
         return dados;
-    }
-
-    public void setDados(List<ConsultaApiDadosItemResponse> dados) {
-        this.dados = dados;
     }
 }

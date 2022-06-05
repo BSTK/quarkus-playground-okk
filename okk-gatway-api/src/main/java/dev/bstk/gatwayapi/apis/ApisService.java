@@ -1,5 +1,6 @@
 package dev.bstk.gatwayapi.apis;
 
+import dev.bstk.gatwayapi.apis.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.apis.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.apis.response.ConsultaApiDadosItemResponse;
 import dev.bstk.gatwayapi.apis.response.ConsultaApiResponse;
@@ -9,26 +10,26 @@ import javax.validation.Valid;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class ApisService {
 
 
     public ConsultaApiResponse consultar(@Valid final ConsultaApiRequest request) {
-        final var consultaApiDados = new ArrayList<ConsultaApiDadosItemResponse>();
+        List<ConsultaApiDadosItemResponse> consultaApiDados = new ArrayList<>();
 
-        for (final var itemRequest : request.getApis()) {
-            final var response = ClientBuilder
+        for (ConsultaApiItemRequest itemRequest : request.getApis()) {
+            final Response response = ClientBuilder
                 .newClient()
                 .target(itemRequest.getUrl())
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
-            final var itemResponse = new ConsultaApiDadosItemResponse();
-            itemResponse.setUrl(itemRequest.getUrl());
-            itemResponse.setNomeApiExterna(itemRequest.getNomeApiExterna());
+            final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse(
+                itemRequest.getUrl(),
+                itemRequest.getNomeApiExterna());
 
             /// TODO: CASO DE SUCESSO
             if (Response.Status.OK.getStatusCode() == response.getStatus()) {
@@ -48,10 +49,6 @@ public class ApisService {
             consultaApiDados.add(itemResponse);
         }
 
-        final var consultaApiResponse = new ConsultaApiResponse();
-        consultaApiResponse.setDados(consultaApiDados);
-        consultaApiResponse.setDataHoraRequest(LocalDateTime.now());
-
-        return consultaApiResponse;
+        return new ConsultaApiResponse(consultaApiDados);
     }
 }
