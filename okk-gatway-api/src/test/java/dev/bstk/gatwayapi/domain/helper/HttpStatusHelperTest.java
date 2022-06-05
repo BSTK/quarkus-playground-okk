@@ -1,25 +1,28 @@
 package dev.bstk.gatwayapi.domain.helper;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import javax.ws.rs.core.Response;
 
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class HttpStatusHelperTest {
 
     @Test
-    void deveRetonarTrueParaRequisicaoComSucessoOK() {
+    @DisplayName("Deve retonar [ TRUE ] para requisicao com [ STATUS_OK ]")
+    void deveRetonarTrueParaRequisicaoComSucessoOK_A() {
         Assertions.assertTrue(HttpStatusHelper.ok(Response.Status.OK.getStatusCode()));
     }
 
     @Test
+    @DisplayName("Deve retonar [ TRUE ] para requisicao com [ STATUS_INTERNAL_SERVER_ERROR ]")
     void deveRetonarTrueParaRequisicaoComServerErrorInternalServerError() {
         Assertions.assertTrue(HttpStatusHelper.serverError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
     }
 
     @Test
+    @DisplayName("Deve retonar [ TRUE ] para requisicao com [ STATUS_BAD_REQUEST ]")
     void deveRetonarTrueParaRequisicaoComClientErrorBadRequest() {
         Assertions.assertTrue(HttpStatusHelper.clientError(Response.Status.BAD_REQUEST.getStatusCode()));
     }
@@ -30,6 +33,7 @@ class HttpStatusHelperTest {
         names = "OK",
         mode = EnumSource.Mode.EXCLUDE
     )
+    @DisplayName("Deve executar bateria de testes [ FALSE ] para [ STATUS_OK ]")
     void deveExecutarBateriaDeTestesFalseParaRequisicaoComSucessoOK(final Response.Status status) {
         Assertions.assertFalse(HttpStatusHelper.ok(status.getStatusCode()));
     }
@@ -40,6 +44,7 @@ class HttpStatusHelperTest {
         names = "BAD_REQUEST",
         mode = EnumSource.Mode.EXCLUDE
     )
+    @DisplayName("Deve executar bateria de testes [ FALSE ] para [ STATUS_BAD_REQUEST ]")
     void deveExecutarBateriaDeTestesFalseParaRequisicaoComClientErrorBadRequest(final Response.Status status) {
         Assertions.assertFalse(HttpStatusHelper.clientError(status.getStatusCode()));
     }
@@ -50,6 +55,7 @@ class HttpStatusHelperTest {
         names = "INTERNAL_SERVER_ERROR",
         mode = EnumSource.Mode.EXCLUDE
     )
+    @DisplayName("Deve executar bateria de testes [ FALSE ] para [ STATUS_INTERNAL_SERVER_ERROR ]")
     void deveExecutarBateriaDeTestesFalseParaRequisicaoComInternalServerError(final Response.Status status) {
         Assertions.assertFalse(HttpStatusHelper.serverError(status.getStatusCode()));
     }
