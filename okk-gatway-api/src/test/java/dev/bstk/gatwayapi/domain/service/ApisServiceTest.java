@@ -3,6 +3,7 @@ package dev.bstk.gatwayapi.domain.service;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,55 +57,41 @@ class ApisServiceTest {
             .thenReturn(builder);
     }
 
+    @AfterEach
+    void down() {
+        clientBuilderMock.close();
+    }
+
     @Test
     void deveRetornarDadosConsultaApiParaUmCasoDeSucessoOk() {
-        mockResponse(
+        execute(
             Response
                 .ok("OBJETO_CONTENDO_SUCESSO_OK")
                 .status(Response.Status.OK)
-                .build());
-
-        final ConsultaApiRequest request = request();
-        final ConsultaApiResponse response = apisService.consultar(request);
-
-        Assertions.assertNotNull(response);
-        Assertions.assertNotNull(response.getDados());
-        Assertions.assertNotNull(response.getDataHoraRequest());
-
-        Assertions.assertFalse(response.getDados().isEmpty());
-
-        Assertions.assertEquals(response.getDados().size(), request.getApis().size());
-
-        response.getDados().forEach(item -> {
-            Assertions.assertInstanceOf(String.class, item.getResponse());
-            Assertions.assertEquals("OBJETO_CONTENDO_SUCESSO_OK", item.getResponse());
-        });
+                .build(),
+            "OBJETO_CONTENDO_SUCESSO_OK"
+        );
     }
 
     @Test
     void deveRetornarDadosConsultaApiParaUmCasoDeClientError() {
-        mockResponse(Response.status(Response.Status.BAD_REQUEST).build());
-
-        final ConsultaApiRequest request = request();
-        final ConsultaApiResponse response = apisService.consultar(request);
-
-        Assertions.assertNotNull(response);
-        Assertions.assertNotNull(response.getDados());
-        Assertions.assertNotNull(response.getDataHoraRequest());
-
-        Assertions.assertFalse(response.getDados().isEmpty());
-
-        Assertions.assertEquals(response.getDados().size(), request.getApis().size());
-
-        response.getDados().forEach(item -> {
-            Assertions.assertInstanceOf(String.class, item.getResponse());
-            Assertions.assertEquals("OBJETO_CONTENDO_ERRO_CLIENTE", item.getResponse());
-        });
+        execute(
+            Response.status(Response.Status.BAD_REQUEST).build(),
+            "OBJETO_CONTENDO_ERRO_CLIENTE"
+        );
     }
 
     @Test
     void deveRetornarDadosConsultaDeApiParaUmCasoDeServerError() {
-        mockResponse(Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
+        execute(
+            Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(),
+            "OBJETO_CONTENDO_ERRO_SERVIDOR"
+        );
+    }
+
+    private void execute(final Response httpResponse,
+                         final Object httpResponseConteudo) {
+        mockResponse(httpResponse);
 
         final ConsultaApiRequest request = request();
         final ConsultaApiResponse response = apisService.consultar(request);
@@ -117,10 +104,12 @@ class ApisServiceTest {
 
         Assertions.assertEquals(response.getDados().size(), request.getApis().size());
 
-        response.getDados().forEach(item -> {
-            Assertions.assertInstanceOf(String.class, item.getResponse());
-            Assertions.assertEquals("OBJETO_CONTENDO_ERRO_SERVIDOR", item.getResponse());
-        });
+        response
+            .getDados()
+            .forEach(item -> {
+                Assertions.assertInstanceOf(String.class, item.getResponse());
+                Assertions.assertEquals(httpResponseConteudo, item.getResponse());
+            });
     }
 
     private void mockResponse(final Response response) {
