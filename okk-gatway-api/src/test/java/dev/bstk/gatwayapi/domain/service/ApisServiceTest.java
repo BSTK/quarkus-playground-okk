@@ -3,10 +3,7 @@ package dev.bstk.gatwayapi.domain.service;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -63,6 +60,7 @@ class ApisServiceTest {
     }
 
     @Test
+    @DisplayName("Deve retornar dados consulta api para um caso de [ SUCESSO OK ]")
     void deveRetornarDadosConsultaApiParaUmCasoDeSucessoOk() {
         execute(
             Response
@@ -74,6 +72,7 @@ class ApisServiceTest {
     }
 
     @Test
+    @DisplayName("Deve retornar dados consulta api para um caso de [ CLIENT ERROR ]")
     void deveRetornarDadosConsultaApiParaUmCasoDeClientError() {
         execute(
             Response.status(Response.Status.BAD_REQUEST).build(),
@@ -82,6 +81,7 @@ class ApisServiceTest {
     }
 
     @Test
+    @DisplayName("Deve retornar dados consulta api para um caso de [ SERVER ERROR ]")
     void deveRetornarDadosConsultaDeApiParaUmCasoDeServerError() {
         execute(
             Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(),
