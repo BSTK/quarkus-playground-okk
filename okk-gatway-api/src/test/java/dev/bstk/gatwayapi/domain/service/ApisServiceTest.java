@@ -57,7 +57,32 @@ class ApisServiceTest {
     }
 
     @Test
-    void deveRetornarDadosConsultaApiParaUmCasoDoClientError() {
+    void deveRetornarDadosConsultaApiParaUmCasoDeSucessoOk() {
+        mockResponse(
+            Response
+                .ok("OBJETO_CONTENDO_SUCESSO_OK")
+                .status(Response.Status.OK)
+                .build());
+
+        final ConsultaApiRequest request = request();
+        final ConsultaApiResponse response = apisService.consultar(request);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getDados());
+        Assertions.assertNotNull(response.getDataHoraRequest());
+
+        Assertions.assertFalse(response.getDados().isEmpty());
+
+        Assertions.assertEquals(response.getDados().size(), request.getApis().size());
+
+        response.getDados().forEach(item -> {
+            Assertions.assertInstanceOf(String.class, item.getResponse());
+            Assertions.assertEquals("OBJETO_CONTENDO_SUCESSO_OK", item.getResponse());
+        });
+    }
+
+    @Test
+    void deveRetornarDadosConsultaApiParaUmCasoDeClientError() {
         mockResponse(Response.status(Response.Status.BAD_REQUEST).build());
 
         final ConsultaApiRequest request = request();
@@ -78,7 +103,7 @@ class ApisServiceTest {
     }
 
     @Test
-    void deveRetornarDadosConsultaDeApiParaUmCasoDoServerError() {
+    void deveRetornarDadosConsultaDeApiParaUmCasoDeServerError() {
         mockResponse(Response.status(Response.Status.INTERNAL_SERVER_ERROR).build());
 
         final ConsultaApiRequest request = request();
