@@ -11,8 +11,15 @@ class HttpStatusHelperTest {
 
     @Test
     @DisplayName("Deve retonar [ TRUE ] para requisicao com [ STATUS_OK ]")
-    void deveRetonarTrueParaRequisicaoComSucessoOK_A() {
+    void deveRetonarTrueParaRequisicaoComSucessoOK() {
         Assertions.assertTrue(HttpStatusHelper.ok(Response.Status.OK.getStatusCode()));
+    }
+
+    @Test
+    @DisplayName("Deve retonar [ TRUE ] para requisicao com [ STATUS_NOK ]")
+    void deveRetonarTrueParaRequisicaoComSucessoNOK() {
+        Assertions.assertTrue(HttpStatusHelper.nok(Response.Status.BAD_REQUEST.getStatusCode()));
+        Assertions.assertTrue(HttpStatusHelper.nok(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
     }
 
     @Test
@@ -36,6 +43,17 @@ class HttpStatusHelperTest {
     @DisplayName("Deve executar bateria de testes [ FALSE ] para [ STATUS_OK ]")
     void deveExecutarBateriaDeTestesFalseParaRequisicaoComSucessoOK(final Response.Status status) {
         Assertions.assertFalse(HttpStatusHelper.ok(status.getStatusCode()));
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = Response.Status.class,
+        names = { "BAD_REQUEST", "INTERNAL_SERVER_ERROR" },
+        mode = EnumSource.Mode.EXCLUDE
+    )
+    @DisplayName("Deve executar bateria de testes [ FALSE ] para [ STATUS_NOK ]")
+    void deveExecutarBateriaDeTestesFalseParaRequisicaoComSucessoNOK(final Response.Status status) {
+        Assertions.assertFalse(HttpStatusHelper.nok(status.getStatusCode()));
     }
 
     @ParameterizedTest

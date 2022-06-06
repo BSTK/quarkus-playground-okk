@@ -10,6 +10,10 @@ public class HttpStatusHelper {
         return Response.Status.OK.getStatusCode() == statusCode;
     }
 
+    public static boolean nok(final int statusCode) {
+        return clientError(statusCode) || serverError(statusCode);
+    }
+
     public static boolean serverError(final int statusCode) {
         return Response.Status.INTERNAL_SERVER_ERROR.getStatusCode() == statusCode;
     }
