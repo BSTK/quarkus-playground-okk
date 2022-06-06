@@ -1,5 +1,6 @@
 package dev.bstk.gatwayapi.domain.service;
 
+import dev.bstk.gatwayapi.domain.helper.CollectionsHelper;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiDadosItemResponse;
@@ -8,6 +9,8 @@ import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -20,30 +23,41 @@ public class ApisService {
 
 
     public ConsultaApiResponse consultar(@Valid final ConsultaApiRequest request) {
-        List<ConsultaApiDadosItemResponse> consultaApiDados = new ArrayList<>();
+        final List<ConsultaApiDadosItemResponse> consultaApiDados = new ArrayList<>();
 
-        for (ConsultaApiItemRequest itemRequest : request.getApis()) {
-            final Response response = ClientBuilder
+        for (ConsultaApiItemRequest apiRequest : request.getApis()) {
+            final WebTarget webTarget = ClientBuilder
                 .newClient()
-                .target(itemRequest.getUrl())
-                .request(MediaType.APPLICATION_JSON)
-                .get();
+                .target(apiRequest.getUrl());
+
+            if (CollectionsHelper.isNotEmpty(apiRequest.getParametros())) {
+                apiRequest
+                    .getParametros()
+                    .forEach(webTarget::queryParam);
+            }
+
+            final Invocation.Builder requestBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+
+            if (CollectionsHelper.isNotEmpty(apiRequest.getHeaders())) {
+                apiRequest
+                    .getHeaders()
+                    .forEach(requestBuilder::header);
+            }
+
+            final Response response = requestBuilder.get();
 
             final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse(
-                itemRequest.getUrl(),
-                itemRequest.getNomeApiExterna());
+                apiRequest.getUrl(),
+                apiRequest.getNomeApiExterna());
 
-            /// TODO: CASO DE SUCESSO
             if (ok(response.getStatus())) {
                 itemResponse.setResponse(response.readEntity(Object.class));
             }
 
-            /// TODO: CASO DE ERRO CLIENTE
             if (clientError(response.getStatus())) {
                 itemResponse.setResponse("OBJETO_CONTENDO_ERRO_CLIENTE");
             }
 
-            /// TODO: CASO DE ERRO SERVIDOR
             if (serverError(response.getStatus())) {
                 itemResponse.setResponse("OBJETO_CONTENDO_ERRO_SERVIDOR");
             }
