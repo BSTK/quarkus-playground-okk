@@ -1,6 +1,5 @@
 package dev.bstk.gatwayapi.domain.service;
 
-import dev.bstk.gatwayapi.domain.helper.CollectionsHelper;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiDadosItemResponse;
@@ -8,10 +7,7 @@ import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +18,23 @@ import static dev.bstk.gatwayapi.domain.helper.HttpStatusHelper.*;
 public class ApisService {
 
 
-    public ConsultaApiResponse consultar(@Valid final ConsultaApiRequest request) {
+    public ConsultaApiResponse consultar(@Valid final ConsultaApiRequest apiRequest) {
         final List<ConsultaApiDadosItemResponse> consultaApiDados = new ArrayList<>();
 
-        for (ConsultaApiItemRequest apiRequest : request.getApis()) {
-            final WebTarget webTarget = ClientBuilder
-                .newClient()
-                .target(apiRequest.getUrl());
+        for (ConsultaApiItemRequest itemRequest : apiRequest.getApis()) {
+            final Invocation.Builder request = ApisJaxRsHttpClient
+                .Builder
+                .builder()
+                .url(itemRequest.getUrl())
+                .headers(itemRequest.getHeaders())
+                .queryParams(itemRequest.getParametros())
+                .build();
 
-            if (CollectionsHelper.isNotEmpty(apiRequest.getParametros())) {
-                apiRequest
-                    .getParametros()
-                    .forEach(webTarget::queryParam);
-            }
-
-            final Invocation.Builder requestBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-
-            if (CollectionsHelper.isNotEmpty(apiRequest.getHeaders())) {
-                apiRequest
-                    .getHeaders()
-                    .forEach(requestBuilder::header);
-            }
-
-            final Response response = requestBuilder.get();
+            final Response response = request.get();
 
             final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse(
-                apiRequest.getUrl(),
-                apiRequest.getNomeApiExterna());
+                itemRequest.getUrl(),
+                itemRequest.getNomeApiExterna());
 
             if (ok(response.getStatus())) {
                 itemResponse.setResponse(response.readEntity(Object.class));
