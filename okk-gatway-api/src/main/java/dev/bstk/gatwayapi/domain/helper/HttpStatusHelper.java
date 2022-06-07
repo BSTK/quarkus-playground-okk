@@ -2,7 +2,7 @@ package dev.bstk.gatwayapi.domain.helper;
 
 import javax.ws.rs.core.Response;
 
-public class HttpStatusHelper {
+public final class HttpStatusHelper {
 
     private HttpStatusHelper() { }
 

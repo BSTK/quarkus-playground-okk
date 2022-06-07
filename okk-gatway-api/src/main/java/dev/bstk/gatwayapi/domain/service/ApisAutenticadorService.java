@@ -1,17 +1,13 @@
 package dev.bstk.gatwayapi.domain.service;
 
-import dev.bstk.gatwayapi.domain.helper.CollectionsHelper;
 import dev.bstk.gatwayapi.domain.helper.HttpStatusHelper;
 import dev.bstk.gatwayapi.domain.service.dto.ApisAutenticadorAcessTokenDto;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiTokenRequest;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @ApplicationScoped
@@ -19,25 +15,15 @@ public class ApisAutenticadorService {
 
 
     public ApisAutenticadorAcessTokenDto obterToken(@Valid final ConsultaApiTokenRequest apiRequest) {
-        final WebTarget webTarget = ClientBuilder
-            .newClient()
-            .target(apiRequest.getUrl());
+        final Invocation.Builder request = ApisJaxRsHttpClient
+            .Builder
+            .builder()
+            .url(apiRequest.getUrl())
+            .headers(apiRequest.getHeaders())
+            .queryParams(apiRequest.getParametros())
+            .build();
 
-        if (CollectionsHelper.isNotEmpty(apiRequest.getParametros())) {
-            apiRequest
-                .getParametros()
-                .forEach(webTarget::queryParam);
-        }
-
-        final Invocation.Builder requestBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-
-        if (CollectionsHelper.isNotEmpty(apiRequest.getHeaders())) {
-            apiRequest
-                .getHeaders()
-                .forEach(requestBuilder::header);
-        }
-
-        final Response response = requestBuilder.post(Entity.json(apiRequest.getPayload()));
+        final Response response = request.post(Entity.json(apiRequest.getPayload()));
 
         if (HttpStatusHelper.nok(response.getStatus())) {
             if (!response.hasEntity()) {

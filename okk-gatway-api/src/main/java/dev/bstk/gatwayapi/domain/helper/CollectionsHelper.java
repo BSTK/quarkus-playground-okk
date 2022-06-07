@@ -3,7 +3,7 @@ package dev.bstk.gatwayapi.domain.helper;
 import java.util.Map;
 import java.util.Objects;
 
-public class CollectionsHelper {
+public final class CollectionsHelper {
 
     private CollectionsHelper() { }
 
