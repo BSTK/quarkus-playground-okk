@@ -52,7 +52,10 @@ class ApisServiceTest extends JaxRsHttpClient {
     @DisplayName("Deve retornar dados consulta api para um caso de [ CLIENT ERROR ]")
     void deveRetornarDadosConsultaApiParaUmCasoDeClientError() {
         execute(
-            Response.status(Response.Status.BAD_REQUEST).build(),
+            Response
+                .ok("OBJETO_CONTENDO_ERRO_CLIENTE")
+                .status(Response.Status.BAD_REQUEST)
+                .build(),
             "OBJETO_CONTENDO_ERRO_CLIENTE"
         );
     }
@@ -61,7 +64,10 @@ class ApisServiceTest extends JaxRsHttpClient {
     @DisplayName("Deve retornar dados consulta api para um caso de [ SERVER ERROR ]")
     void deveRetornarDadosConsultaDeApiParaUmCasoDeServerError() {
         execute(
-            Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(),
+            Response
+                .ok("OBJETO_CONTENDO_ERRO_SERVIDOR")
+                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .build(),
             "OBJETO_CONTENDO_ERRO_SERVIDOR"
         );
     }

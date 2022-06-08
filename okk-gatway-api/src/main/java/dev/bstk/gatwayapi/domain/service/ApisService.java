@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static dev.bstk.gatwayapi.domain.helper.HttpStatusHelper.*;
-
 @ApplicationScoped
 public class ApisService {
 
@@ -54,22 +52,8 @@ public class ApisService {
 
             final Response response = request.get();
 
-            final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse(
-                itemRequest.getNomeApiExterna(),
-                itemRequest.getUrl());
-
-            /// TODO: REFATORAR MÉTODO PARA OBTER DADOS E SETAR NA RESPONSE
-            if (ok(response.getStatus())) {
-                itemResponse.setResponse(response.readEntity(Object.class));
-            }
-
-            if (clientError(response.getStatus())) {
-                itemResponse.setResponse("OBJETO_CONTENDO_ERRO_CLIENTE");
-            }
-
-            if (serverError(response.getStatus())) {
-                itemResponse.setResponse("OBJETO_CONTENDO_ERRO_SERVIDOR");
-            }
+            final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse(itemRequest.getNomeApiExterna());
+            itemResponse.setResponse(response.readEntity(Object.class));
 
             consultaApiDados.add(itemResponse);
         }
