@@ -14,4 +14,12 @@ public final class CollectionsHelper {
     public static boolean isNotEmpty(final Map<?, ?> map) {
         return !isEmpty(map);
     }
+
+    public static Map<?, ?> map(final Map<?, ?> map) {
+        if (Objects.isNull(map)) {
+            throw new IllegalArgumentException("Map nulo!");
+        }
+
+        return map;
+    }
 }

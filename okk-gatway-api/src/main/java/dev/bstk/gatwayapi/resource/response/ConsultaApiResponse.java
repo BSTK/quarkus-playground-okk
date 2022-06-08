@@ -9,7 +9,7 @@ import java.util.List;
 public class ConsultaApiResponse implements Serializable {
 
     @JsonbProperty("data_hora_request")
-    @JsonbDateFormat("dd-MM-yyyy hh:mm:ss:sss")
+    @JsonbDateFormat("dd-MM-yyyy hh:mm:ss")
     private final LocalDateTime dataHoraRequest;
 
     @JsonbProperty("dados")

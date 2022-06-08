@@ -20,7 +20,7 @@ public class ApisAutenticadorService {
             .builder()
             .url(apiRequest.getUrl())
             .headers(apiRequest.getHeaders())
-            .queryParams(apiRequest.getParametros())
+            .queryParams(apiRequest.getQueryParams())
             .build();
 
         final Response response = request.post(Entity.json(apiRequest.getPayload()));

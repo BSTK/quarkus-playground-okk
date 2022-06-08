@@ -16,9 +16,6 @@ public class ConsultaApiRequest implements Serializable {
     @JsonbProperty("apis")
     private List<ConsultaApiItemRequest> apis;
 
-    @JsonbProperty("api_obter_token")
-    private ConsultaApiTokenRequest apiObterToken;
-
     public String getAppCliente() {
         return appCliente;
     }
@@ -33,13 +30,5 @@ public class ConsultaApiRequest implements Serializable {
 
     public void setApis(List<ConsultaApiItemRequest> apis) {
         this.apis = apis;
-    }
-
-    public ConsultaApiTokenRequest getApiObterToken() {
-        return apiObterToken;
-    }
-
-    public void setApiObterToken(ConsultaApiTokenRequest apiObterToken) {
-        this.apiObterToken = apiObterToken;
     }
 }

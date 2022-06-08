@@ -21,8 +21,11 @@ public class ConsultaApiItemRequest implements Serializable {
     @JsonbProperty("headers")
     private Map<String, String> headers;
 
-    @JsonbProperty("parametros")
-    private Map<String, String> parametros;
+    @JsonbProperty("query_params")
+    private Map<String, String> queryParams;
+
+    @JsonbProperty("api_obter_token")
+    private ConsultaApiTokenRequest apiObterToken;
 
     public String getNomeApiExterna() {
         return nomeApiExterna;
@@ -48,11 +51,19 @@ public class ConsultaApiItemRequest implements Serializable {
         this.headers = headers;
     }
 
-    public Map<String, String> getParametros() {
-        return parametros;
+    public Map<String, String> getQueryParams() {
+        return queryParams;
     }
 
-    public void setParametros(Map<String, String> parametros) {
-        this.parametros = parametros;
+    public void setQueryParams(Map<String, String> queryParams) {
+        this.queryParams = queryParams;
+    }
+
+    public ConsultaApiTokenRequest getApiObterToken() {
+        return apiObterToken;
+    }
+
+    public void setApiObterToken(ConsultaApiTokenRequest apiObterToken) {
+        this.apiObterToken = apiObterToken;
     }
 }

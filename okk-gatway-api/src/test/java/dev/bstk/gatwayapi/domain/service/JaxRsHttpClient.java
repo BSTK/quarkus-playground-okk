@@ -40,6 +40,10 @@ abstract class JaxRsHttpClient {
         clientBuilderMock
             .when(() -> ClientBuilder.newClient().target(anyString()).request(MediaType.APPLICATION_JSON))
             .thenReturn(builder);
+
+        Mockito
+            .when(webTarget.queryParam(anyString(), anyString()))
+            .thenReturn(webTarget);
     }
 
     @AfterEach

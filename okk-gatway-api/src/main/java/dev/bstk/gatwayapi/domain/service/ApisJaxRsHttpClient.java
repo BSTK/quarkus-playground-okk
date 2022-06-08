@@ -41,12 +41,14 @@ public final class ApisJaxRsHttpClient {
         public Invocation.Builder build() {
             validarUrl(url);
 
-            final WebTarget webTarget = ClientBuilder
+            WebTarget webTarget = ClientBuilder
                 .newClient()
                 .target(url);
 
             if (CollectionsHelper.isNotEmpty(queryParams)) {
-                queryParams.forEach(webTarget::queryParam);
+                for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+                    webTarget = webTarget.queryParam(entry.getKey(), entry.getValue());
+                }
             }
 
             final Invocation.Builder requestBuilder = webTarget.request(MediaType.APPLICATION_JSON);
@@ -65,4 +67,3 @@ public final class ApisJaxRsHttpClient {
         }
     }
 }
-

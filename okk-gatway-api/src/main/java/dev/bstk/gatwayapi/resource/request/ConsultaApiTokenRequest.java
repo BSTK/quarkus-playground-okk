@@ -22,8 +22,8 @@ public class ConsultaApiTokenRequest implements Serializable {
     @JsonbProperty("headers")
     private Map<String, String> headers;
 
-    @JsonbProperty("parametros")
-    private Map<String, String> parametros;
+    @JsonbProperty("query_params")
+    private Map<String, String> queryParams;
 
     public String getUrl() {
         return url;
@@ -49,11 +49,11 @@ public class ConsultaApiTokenRequest implements Serializable {
         this.headers = headers;
     }
 
-    public Map<String, String> getParametros() {
-        return parametros;
+    public Map<String, String> getQueryParams() {
+        return queryParams;
     }
 
-    public void setParametros(Map<String, String> parametros) {
-        this.parametros = parametros;
+    public void setQueryParams(Map<String, String> queryParams) {
+        this.queryParams = queryParams;
     }
 }

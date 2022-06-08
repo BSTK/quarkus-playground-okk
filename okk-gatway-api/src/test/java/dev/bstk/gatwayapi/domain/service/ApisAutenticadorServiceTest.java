@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -36,10 +38,11 @@ class ApisAutenticadorServiceTest extends JaxRsHttpClient {
     }
 
     @Test
+    @MockitoSettings(strictness = Strictness.LENIENT)
     @DisplayName("Deve obter um token valido passando headers na consulta")
     void deveObterUmTokenValidoPassandoHeadersNaConsulta() {
         ConsultaApiTokenRequest request = request();
-        request.setParametros(Collections.emptyMap());
+        request.setQueryParams(Collections.emptyMap());
 
         execute(Response.ok(acessToken()).build(), request);
         Mockito.verify(webTarget, Mockito.never()).queryParam(anyString(), anyString());
@@ -74,7 +77,7 @@ class ApisAutenticadorServiceTest extends JaxRsHttpClient {
         ConsultaApiTokenRequest apiTokenRequest = new ConsultaApiTokenRequest();
         apiTokenRequest.setUrl("https://mock-api.com/token");
         apiTokenRequest.setHeaders(Map.of("chave", "valor"));
-        apiTokenRequest.setParametros(Map.of("chave", "valor"));
+        apiTokenRequest.setQueryParams(Map.of("chave", "valor"));
         apiTokenRequest.setPayload("{'audience': 'https://mock-api.com'}");
 
         return apiTokenRequest;

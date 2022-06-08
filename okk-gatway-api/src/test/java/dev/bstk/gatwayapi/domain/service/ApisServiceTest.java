@@ -14,6 +14,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -89,6 +90,8 @@ class ApisServiceTest extends JaxRsHttpClient {
         final ConsultaApiItemRequest itemRequest = new ConsultaApiItemRequest();
         itemRequest.setUrl("https://mock-ok.com.br");
         itemRequest.setNomeApiExterna("Mock OK");
+        itemRequest.setHeaders(Map.of("chave_a", "valor_a"));
+        itemRequest.setQueryParams(Map.of("chave_a", "valor_a"));
 
         final ConsultaApiRequest request = new ConsultaApiRequest();
         request.setApis(Collections.singletonList(itemRequest));
