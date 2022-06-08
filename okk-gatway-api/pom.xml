@@ -19,6 +19,20 @@
         <quarkus.platform.version>2.9.2.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
         <mockito-junit-jupiter.version>2.23.0</mockito-junit-jupiter.version>
+
+        <!-- Sonar Cloud -->
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>bstk-sonar-qube-cloud</sonar.organization>
+
+        <sonar.language>java</sonar.language>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ../${artifactId}/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
+        <!-- JaCoCo Properties -->
+        <jacoco.version>0.8.6</jacoco.version>
     </properties>
 
     <dependencyManagement>
@@ -132,6 +146,27 @@
                         <version>1.0.1</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <!-- Jacoco Maven -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
