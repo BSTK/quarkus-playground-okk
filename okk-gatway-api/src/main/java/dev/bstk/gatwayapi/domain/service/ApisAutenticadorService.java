@@ -2,6 +2,7 @@ package dev.bstk.gatwayapi.domain.service;
 
 import dev.bstk.gatwayapi.domain.helper.HttpStatusHelper;
 import dev.bstk.gatwayapi.domain.service.dto.ApisAutenticadorAcessTokenDto;
+import dev.bstk.gatwayapi.domain.exception.ErrorAoObterUmAccessTokenException;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiTokenRequest;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -26,15 +27,8 @@ public class ApisAutenticadorService {
         final Response response = request.post(Entity.json(apiRequest.getPayload()));
 
         if (HttpStatusHelper.nok(response.getStatus())) {
-            if (!response.hasEntity()) {
-                throw new IllegalArgumentException("");
-            }
-
-            if (response.hasEntity()) {
-                /// TODO: OBTER DADOS DA REQUISISÇÃO E INFORMAR NA EXCEPTION
-                final Object dadosRequesicaoComErro = response.readEntity(Object.class);
-                throw new IllegalArgumentException("Não foi possivél Acess Token.");
-            }
+            final Object dadosRequesicaoComErro = response.readEntity(Object.class);
+            throw new ErrorAoObterUmAccessTokenException("Não foi possivél Acess Token.", dadosRequesicaoComErro);
         }
 
         return response.readEntity(ApisAutenticadorAcessTokenDto.class);
