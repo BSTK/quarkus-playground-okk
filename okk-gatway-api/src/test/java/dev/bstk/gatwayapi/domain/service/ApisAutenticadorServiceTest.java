@@ -2,15 +2,16 @@ package dev.bstk.gatwayapi.domain.service;
 
 import dev.bstk.gatwayapi.domain.service.dto.ApisAutenticadorAcessTokenDto;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiTokenRequest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
@@ -20,41 +21,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
-class ApisAutenticadorServiceTest {
+class ApisAutenticadorServiceTest extends JaxRsHttpClient {
 
     @InjectMocks
     private ApisAutenticadorService autenticadorService;
-
-    @Mock
-    private Client client;
-
-    @Mock
-    private WebTarget webTarget;
-
-    @Mock
-    private Invocation.Builder builder;
-
-    private final MockedStatic<ClientBuilder> clientBuilderMock = Mockito.mockStatic(ClientBuilder.class);
-
-    @BeforeEach
-    void setUp() {
-        clientBuilderMock
-            .when(ClientBuilder::newClient)
-            .thenReturn(client);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()))
-            .thenReturn(webTarget);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()).request(MediaType.APPLICATION_JSON))
-            .thenReturn(builder);
-    }
-
-    @AfterEach
-    void down() {
-        clientBuilderMock.close();
-    }
 
     @Test
     @DisplayName("Deve obter um token valido")

@@ -3,18 +3,14 @@ package dev.bstk.gatwayapi.domain.service;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiItemRequest;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
@@ -22,42 +18,10 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
-class ApisServiceTest {
+class ApisServiceTest extends JaxRsHttpClient {
 
     @InjectMocks
     private ApisService apisService;
-
-    @Mock
-    private Client client;
-
-    @Mock
-    private WebTarget webTarget;
-
-    @Mock
-    private Invocation.Builder builder;
-
-    private final MockedStatic<ClientBuilder> clientBuilderMock = Mockito.mockStatic(ClientBuilder.class);
-
-
-    @BeforeEach
-    void setUp() {
-        clientBuilderMock
-            .when(ClientBuilder::newClient)
-            .thenReturn(client);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()))
-            .thenReturn(webTarget);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()).request(MediaType.APPLICATION_JSON))
-            .thenReturn(builder);
-    }
-
-    @AfterEach
-    void down() {
-        clientBuilderMock.close();
-    }
 
     @Test
     @DisplayName("Deve retornar dados consulta api para um caso de [ SUCESSO OK ]")

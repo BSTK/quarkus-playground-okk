@@ -1,59 +1,25 @@
 package dev.bstk.gatwayapi.domain.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ApisJaxRsHttpClientTest {
+class ApisJaxRsHttpClientTest extends JaxRsHttpClient {
 
-    @Mock
-    private Client client;
-
-    @Mock
-    private WebTarget webTarget;
-
-    @Mock
-    private Invocation.Builder builder;
-
-    private final MockedStatic<ClientBuilder> clientBuilderMock = Mockito.mockStatic(ClientBuilder.class);
-
-    @BeforeEach
-    void setUp() {
-        clientBuilderMock
-            .when(ClientBuilder::newClient)
-            .thenReturn(client);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()))
-            .thenReturn(webTarget);
-
-        clientBuilderMock
-            .when(() -> ClientBuilder.newClient().target(anyString()).request(MediaType.APPLICATION_JSON))
-            .thenReturn(builder);
-    }
-
-    @AfterEach
-    void down() {
-        clientBuilderMock.close();
-    }
 
     @Test
     @DisplayName("Deve retonar um Jax Invocation.Builder com QueryParams e Headers")
