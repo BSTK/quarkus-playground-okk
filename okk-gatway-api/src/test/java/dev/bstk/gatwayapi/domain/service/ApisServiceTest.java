@@ -100,7 +100,49 @@ class ApisServiceTest extends JaxRsHttpClient {
                 Assertions.assertEquals("OBJETO_CONTENDO_SUCESSO_OK", item.getResponse());
             });
 
+        final int quantidadeHeaders = request.getApis().get(0).getHeaders().size();
         Mockito.verify(builder).header(HttpHeaders.AUTHORIZATION, acessToken.getAccessToken());
+        Mockito.verify(builder, Mockito.times(quantidadeHeaders)).header(anyString(), anyString());
+    }
+
+    @Test
+    @MockitoSettings(strictness = Strictness.LENIENT)
+    @DisplayName("Deve retornar dados consulta api para um caso de [ SUCESSO OK ] com autenticação")
+    void deveRetornarDadosConsultaApiParaUmCasoDeSucessoOkComAutenticacaoSoComHeaderDeAutorizasao() {
+        mockResponse(
+            Response
+                .ok("OBJETO_CONTENDO_SUCESSO_OK")
+                .status(Response.Status.OK)
+                .build());
+
+        final ApisAutenticadorAcessTokenDto acessToken = new ApisAutenticadorAcessTokenDto();
+        acessToken.setAccessToken("ACESS_TOKEN_MOCK");
+        Mockito
+            .when(autenticadorService.obterToken(any(ConsultaApiTokenRequest.class)))
+            .thenReturn(acessToken);
+
+        final ConsultaApiRequest request = requestComAutenticacao();
+        request.getApis().get(0).setHeaders(null);
+
+        final ConsultaApiResponse response = apisService.consultar(request);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getDados());
+        Assertions.assertNotNull(response.getDataHoraRequest());
+
+        Assertions.assertFalse(response.getDados().isEmpty());
+
+        Assertions.assertEquals(response.getDados().size(), request.getApis().size());
+
+        response
+            .getDados()
+            .forEach(item -> {
+                Assertions.assertInstanceOf(String.class, item.getResponse());
+                Assertions.assertEquals("OBJETO_CONTENDO_SUCESSO_OK", item.getResponse());
+            });
+
+        Mockito.verify(builder).header(HttpHeaders.AUTHORIZATION, acessToken.getAccessToken());
+        Mockito.verify(builder, Mockito.times(1)).header(anyString(), anyString());
     }
 
     private void execute(final Response httpResponse,
@@ -149,9 +191,12 @@ class ApisServiceTest extends JaxRsHttpClient {
     }
 
     private ConsultaApiRequest requestComAutenticacao() {
+        final Map<String, String> headersQueryParams = new HashMap<>();
+        headersQueryParams.put("chave_a", "valor_a");
+
         final ConsultaApiTokenRequest apiToken = new ConsultaApiTokenRequest();
-        apiToken.setHeaders(Map.of("chave_a", "valor_a"));
-        apiToken.setQueryParams(Map.of("chave_a", "valor_a"));
+        apiToken.setHeaders(headersQueryParams);
+        apiToken.setQueryParams(headersQueryParams);
         apiToken.setUrl("https://mock-ok.com.br/auth");
         apiToken.setPayload(new Object());
 
@@ -159,8 +204,8 @@ class ApisServiceTest extends JaxRsHttpClient {
         itemRequest.setUrl("https://mock-ok.com.br");
         itemRequest.setApiObterToken(apiToken);
         itemRequest.setNomeApiExterna("Mock OK");
-        itemRequest.setHeaders(new HashMap<>());
-        itemRequest.setQueryParams(new HashMap<>());
+        itemRequest.setHeaders(headersQueryParams);
+        itemRequest.setQueryParams(headersQueryParams);
 
         final ConsultaApiRequest request = new ConsultaApiRequest();
         request.setApis(Collections.singletonList(itemRequest));
