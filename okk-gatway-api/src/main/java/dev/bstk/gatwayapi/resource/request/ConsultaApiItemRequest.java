@@ -1,5 +1,6 @@
 package dev.bstk.gatwayapi.resource.request;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.validator.constraints.URL;
 
 import javax.json.bind.annotation.JsonbProperty;
@@ -7,23 +8,29 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Map;
 
+@Schema(description = "Representação dos dados de request")
 public class ConsultaApiItemRequest implements Serializable {
 
     @NotBlank
+    @Schema(name = "nome_api_externa")
     @JsonbProperty("nome_api_externa")
     private String nomeApiExterna;
 
     @URL
     @NotBlank
+    @Schema(name = "url")
     @JsonbProperty("url")
     private String url;
 
+    @Schema(name = "headers")
     @JsonbProperty("headers")
     private Map<String, String> headers;
 
+    @Schema(name = "query_params")
     @JsonbProperty("query_params")
     private Map<String, String> queryParams;
 
+    @Schema(name = "api_obter_token")
     @JsonbProperty("api_obter_token")
     private ConsultaApiTokenRequest apiObterToken;
 
