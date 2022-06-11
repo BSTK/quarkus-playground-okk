@@ -3,6 +3,9 @@ package dev.bstk.gatwayapi.resource;
 import dev.bstk.gatwayapi.domain.service.ApisService;
 import dev.bstk.gatwayapi.resource.request.ConsultaApiRequest;
 import dev.bstk.gatwayapi.resource.response.ConsultaApiResponse;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -28,6 +31,12 @@ public class ApisResource {
 
     @POST
     @Operation(summary = "Retorna dados das api's informadas na request")
+    @Counted(name = "contadorPostApis", description = "Conta quantas vezes o método apis foi invocado")
+    @Timed(
+        name = "timerPostApis",
+        description = "Quanto tempo leva para invocar o método apis",
+        unit = MetricUnits.MILLISECONDS
+    )
     @APIResponse(
         responseCode = "200",
         description = "Retorna os dados de response de cada api informada no payload de request",
