@@ -11,6 +11,8 @@
 
     <modules>
         <module>okk-gatway-api</module>
+        <module>okk-exportador-api-pdf</module>
+        <module>okk-exportador-api-csv-txt</module>
+        <module>okk-exportador-api-excel</module>
     </modules>
-
 </project>
