@@ -1,4 +1,4 @@
-package dev.bstk.exportadorapipdf.domain.gateway.response;
+package dev.bstk.exportadorapipdf.gateway.response;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 

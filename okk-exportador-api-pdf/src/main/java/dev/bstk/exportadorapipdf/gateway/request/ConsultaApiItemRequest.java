@@ -1,4 +1,4 @@
-package dev.bstk.exportadorapipdf.domain.gateway.request;
+package dev.bstk.exportadorapipdf.gateway.request;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.validator.constraints.URL;

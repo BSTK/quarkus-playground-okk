@@ -1,7 +1,7 @@
-package dev.bstk.exportadorapipdf.domain.gateway;
+package dev.bstk.exportadorapipdf.gateway;
 
-import dev.bstk.exportadorapipdf.domain.gateway.request.ConsultaApiRequest;
-import dev.bstk.exportadorapipdf.domain.gateway.response.ConsultaApiResponse;
+import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
+import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.validation.Valid;
