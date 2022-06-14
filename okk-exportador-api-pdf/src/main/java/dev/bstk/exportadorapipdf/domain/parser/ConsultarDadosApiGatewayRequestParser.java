@@ -12,6 +12,13 @@ import java.util.List;
 @ApplicationScoped
 public class ConsultarDadosApiGatewayRequestParser {
 
+    private static final String PATH_PARAM_ID = "{ID}";
+    private static final String PATH_PARAM_SEARCH = "search";
+
+    private static final String QUERY_PARAM_Q = "q";
+    private static final String QUERY_PARAM_PAGE = "page";
+    private static final String QUERY_PARAM_PER_PAGE = "per_page";
+
     private final List<ConsultaApiRequest> requests;
 
     @Inject
@@ -38,23 +45,23 @@ public class ConsultarDadosApiGatewayRequestParser {
     }
 
     private void aplicarRegraUrl(final ConsultaApiItemRequest api) {
-        if (api.getUrl().contains("{ID}")) {
-            final String novaUrl = api.getUrl().replace("{ID}", "1");
+        if (api.getUrl().contains(PATH_PARAM_ID)) {
+            final String novaUrl = api.getUrl().replace(PATH_PARAM_ID, "1");
             api.setUrl(novaUrl);
         }
 
-        if (api.getUrl().endsWith("/search")) {
-            api.getQueryParams().put("q", "GERAR NOME COM a lib Faker");
+        if (api.getUrl().endsWith(PATH_PARAM_SEARCH)) {
+            api.getQueryParams().put(QUERY_PARAM_Q, "GERAR NOME COM a lib Faker");
         }
     }
 
     private void aplicarRegraQueryParams(final ConsultaApiItemRequest api) {
-        if (api.getQueryParams().containsKey("page")) {
-            api.getQueryParams().put("page", String.valueOf(GerarRandomico.inteiro()));
+        if (api.getQueryParams().containsKey(QUERY_PARAM_PAGE)) {
+            api.getQueryParams().put(QUERY_PARAM_PAGE, String.valueOf(GerarRandomico.inteiro()));
         }
 
-        if (api.getQueryParams().containsKey("per_page")) {
-            api.getQueryParams().put("per_page", String.valueOf(GerarRandomico.inteiro()));
+        if (api.getQueryParams().containsKey(QUERY_PARAM_PER_PAGE)) {
+            api.getQueryParams().put(QUERY_PARAM_PER_PAGE, String.valueOf(GerarRandomico.inteiro()));
         }
     }
 }
