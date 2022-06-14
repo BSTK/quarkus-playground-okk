@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/okk-gateway/apis")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface ConsultaDadosGatwayApi {
+public interface ConsultaDadosGatewayApi {
 
     @POST
     ConsultaApiResponse apis(@Valid final ConsultaApiRequest request);
