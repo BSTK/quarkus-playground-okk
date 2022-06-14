@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @ApplicationScoped
 public class ConsultarDadosApiGatewayRequestParser {
@@ -23,17 +26,15 @@ public class ConsultarDadosApiGatewayRequestParser {
     private static final Faker FAKER = new Faker();
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
-    private final List<ConsultaApiRequest> requests;
+    private static final String CACHE_CONSULTA_API_REQUEST_CHAVE = "CACHE_CONSULTA_API_REQUEST_CHAVE";
+    private static final ConcurrentMap<String, List<ConsultaApiRequest>> CACHE = new ConcurrentHashMap<>();
 
     @Inject
     protected ConsultarDadosApiGatewayLeitorArquivosJson leitorArquivosJson;
 
-    public ConsultarDadosApiGatewayRequestParser() {
-        requests = leitorArquivosJson.parse(ConsultaApiRequest.class);
-    }
-
 
     public ConsultaApiRequest request() {
+        final List<ConsultaApiRequest> requests = obterDadosRequest();
         final ConsultaApiRequest request = requests.get(SECURE_RANDOM.nextInt(requests.size()));
 
         for (ConsultaApiItemRequest api : request.getApis()) {
@@ -46,6 +47,18 @@ public class ConsultarDadosApiGatewayRequestParser {
         }
 
         return request;
+    }
+
+    public List<ConsultaApiRequest> obterDadosRequest() {
+        final List<ConsultaApiRequest> consultaApiRequestsCache = CACHE.get(CACHE_CONSULTA_API_REQUEST_CHAVE);
+        if (Objects.nonNull(consultaApiRequestsCache)) {
+            return consultaApiRequestsCache;
+        }
+
+        final List<ConsultaApiRequest> requests = leitorArquivosJson.parse(ConsultaApiRequest.class);
+        CACHE.put(CACHE_CONSULTA_API_REQUEST_CHAVE, requests);
+
+        return requests;
     }
 
     private void aplicarRegraUrl(final ConsultaApiItemRequest api) {
