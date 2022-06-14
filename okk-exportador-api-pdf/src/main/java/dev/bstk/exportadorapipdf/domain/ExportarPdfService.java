@@ -1,7 +1,5 @@
 package dev.bstk.exportadorapipdf.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.bstk.exportadorapipdf.domain.gateway.ConsultaDadosGatwayApi;
 import dev.bstk.exportadorapipdf.domain.gateway.request.ConsultaApiItemRequest;
 import dev.bstk.exportadorapipdf.domain.gateway.request.ConsultaApiRequest;
@@ -20,16 +18,12 @@ import java.util.Objects;
 public class ExportarPdfService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExportarPdfService.class);
-    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Inject
     @RestClient
     protected ConsultaDadosGatwayApi consultaDadosGatwayApi;
 
 
-    /// TODO: GERAR DADOS MOCK'S PARA BUSCA
-    /// TODO: BUSCAR DADOS NA API
-    /// TODO: OBTER RETORNO
     public void executar() {
         LOG.info("Exportando dados PDF");
 
@@ -49,20 +43,5 @@ public class ExportarPdfService {
         if (Objects.isNull(response)) {
             throw new IllegalStateException("Response inválida! Reprocessar!");
         }
-
-        /// TODO: GERAR PDF PARA OS DADOS ABAIXO:
-        response
-            .getDados()
-            .forEach(itemResponse -> {
-                try {
-                    final String json = MAPPER
-                        .writerWithDefaultPrettyPrinter()
-                        .writeValueAsString(itemResponse);
-
-                    LOG.info(json);
-                } catch (final JsonProcessingException ex) {
-                    ex.printStackTrace();
-                }
-            });
     }
 }
