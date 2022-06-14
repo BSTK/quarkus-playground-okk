@@ -17,9 +17,15 @@ public class ConsultarDadosApiGatewayService {
     @RestClient
     protected ConsultaDadosGatewayApi consultaDadosGatewayApi;
 
+    @Inject
+    protected ConsultarDadosApiGatewayRequestParser requestParser;
 
+
+    /// TODO: OBTEM OS DADOS DA API GATEWAY
+    /// TODO: CASO SUCESSO, INSERIR NAS TABELAS PARA SEREM EXPORTADOS EM PDF
+    /// TODO: CASO ERRO, INSERIR NA TABELA DE DADOS PARA SEREM REPROCESSADOS
     public void consultarDados() {
-        final ConsultaApiRequest request = ConsultarDadosApiGatewayRequestParser.request();
+        final ConsultaApiRequest request = requestParser.request();
         final ConsultaApiResponse response = consultaDadosGatewayApi.apis(request);
 
         if (Objects.isNull(response)) {
