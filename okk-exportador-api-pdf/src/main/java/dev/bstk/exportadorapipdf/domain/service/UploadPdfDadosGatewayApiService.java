@@ -7,5 +7,6 @@ public class UploadPdfDadosGatewayApiService {
 
     public void upload() {
         System.out.println("Fazendo upload do PDF gerado");
+        System.out.println("\n");
     }
 }

@@ -7,5 +7,6 @@ public class ExportarPdfDadosGatewayApiService {
 
     public void exportar() {
         System.out.println("Exportando dados PDF");
+        System.out.println("\n");
     }
 }
