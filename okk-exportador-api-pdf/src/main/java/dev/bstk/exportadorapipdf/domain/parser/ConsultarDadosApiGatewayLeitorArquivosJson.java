@@ -16,7 +16,7 @@ public class ConsultarDadosApiGatewayLeitorArquivosJson {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final String SRC_MAIN_RESOURCES = "src/main/resources";
 
-    @ConfigProperty(name = "")
+    @ConfigProperty(name = "exportadorpdf.arquivos.dados")
     protected String[] arquivosDadosJson;
 
     public <T> List<T> parse(final Class<T> clazz) {
