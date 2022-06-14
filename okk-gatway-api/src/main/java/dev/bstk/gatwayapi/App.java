@@ -19,5 +19,5 @@ import javax.ws.rs.core.Application;
         )
     )
 )
-@ApplicationPath("/okk-gatway")
+@ApplicationPath("/okk-gateway")
 public class App extends Application { }

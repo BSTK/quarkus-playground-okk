@@ -21,9 +21,12 @@ public class App implements QuarkusApplication {
     public int run(String... args) throws Exception {
         LOG.info("Executando Exportador Api PDF ...");
 
-        while (true) {
-            exportarPdfService.executar();
-            TimeUnit.MILLISECONDS.sleep(2_000);
-        }
+        exportarPdfService.executar();
+        TimeUnit.MILLISECONDS.sleep(5_000);
+
+        exportarPdfService.executar();
+        TimeUnit.MILLISECONDS.sleep(5_000);
+
+        return 0;
     }
 }
