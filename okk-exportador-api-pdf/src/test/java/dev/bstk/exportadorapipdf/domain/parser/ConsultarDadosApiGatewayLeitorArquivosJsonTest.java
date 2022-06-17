@@ -27,15 +27,7 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
     @ParameterizedTest
     @NullAndEmptySource
     void deveLancarExcecaoComCaminhoJsonInvalidoNulo(final String arquivo) {
-        mockResourceArquivosDadosJson(arquivo);
-
-        final IllegalArgumentException exception = Assertions
-                    .assertThrowsExactly(
-                        IllegalArgumentException.class,
-                        () -> leitorArquivosJson.parse(ConsultaApiRequest.class));
-
-        Assertions.assertNotNull(exception);
-        Assertions.assertEquals("Caminho arquivo json não pode ser nulo ou vazio!", exception.getMessage());
+        executarTesteLancarExcecao(arquivo, "Caminho arquivo json não pode ser nulo ou vazio!");
     }
 
     @ParameterizedTest
@@ -47,15 +39,7 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         "&repositorio-dados/consulta-dados-api-genius.json"
     })
     void deveLancarExcecaoComCaminhoJsonInvalidoNulo_A(final String arquivo) {
-        mockResourceArquivosDadosJson(arquivo);
-
-        final IllegalArgumentException exception = Assertions
-            .assertThrowsExactly(
-                IllegalArgumentException.class,
-                () -> leitorArquivosJson.parse(ConsultaApiRequest.class));
-
-        Assertions.assertNotNull(exception);
-        Assertions.assertEquals("Caminho arquivo json deve iniciar com: '/'!", exception.getMessage());
+        executarTesteLancarExcecao(arquivo, "Caminho arquivo json deve iniciar com: '/'!");
     }
 
     @ParameterizedTest
@@ -67,6 +51,11 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         "/repositorio-dados/consulta-dados-api-genius.yaml"
     })
     void deveLancarExcecaoComCaminhoJsonInvalidoNulo_B(final String arquivo) {
+        executarTesteLancarExcecao(arquivo, "Caminho arquivo json ter a extensão .json!");
+    }
+
+    void executarTesteLancarExcecao(final String arquivo,
+                                    final String mensagemException) {
         mockResourceArquivosDadosJson(arquivo);
 
         final IllegalArgumentException exception = Assertions
@@ -75,7 +64,7 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
                 () -> leitorArquivosJson.parse(ConsultaApiRequest.class));
 
         Assertions.assertNotNull(exception);
-        Assertions.assertEquals("Caminho arquivo json ter a extensão .json!", exception.getMessage());
+        Assertions.assertEquals(mensagemException, exception.getMessage());
     }
 
     private void mockResourceArquivosDadosJson(final String arquivo) {
