@@ -2,6 +2,7 @@ package dev.bstk.exportadorapipdf.domain.parser;
 
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -14,6 +15,7 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
     private final ConsultarDadosApiGatewayLeitorArquivosJson leitorArquivosJson = new ConsultarDadosApiGatewayLeitorArquivosJson();
 
     @Test
+    @DisplayName("Deve retornar um objeto parseado de um json valido")
     void deveRetornarUmObjetoParseadoDeUmJsonValido() {
         mockResourceArquivosDadosJson("/repositorio-dados/consulta-dados-api-genius.json");
 
@@ -24,13 +26,14 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         Assertions.assertFalse(requests.get(0).getApis().isEmpty());
     }
 
-    @ParameterizedTest
     @NullAndEmptySource
+    @ParameterizedTest(name = "Caso de teste: [ {0} ]")
+    @DisplayName("Deve lancar exceçao com caminho json inválido nulo/vazio")
     void deveLancarExcecaoComCaminhoJsonInvalidoNulo(final String arquivo) {
         executarTesteLancarExcecao(arquivo, "Caminho arquivo json não pode ser nulo ou vazio!");
     }
 
-    @ParameterizedTest
+
     @ValueSource(strings = {
         "repositorio-dados/consulta-dados-api-genius.json",
         "@repositorio-dados/consulta-dados-api-genius.json",
@@ -38,11 +41,12 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         "%repositorio-dados/consulta-dados-api-genius.json",
         "&repositorio-dados/consulta-dados-api-genius.json"
     })
-    void deveLancarExcecaoComCaminhoJsonInvalidoNulo_A(final String arquivo) {
+    @ParameterizedTest(name = "Caso de teste: [ {0} ]")
+    @DisplayName("Deve lancar exceçao com caminho json inválido")
+    void deveLancarExcecaoComCaminhoJsonInvalidoInicio(final String arquivo) {
         executarTesteLancarExcecao(arquivo, "Caminho arquivo json deve iniciar com: '/'!");
     }
 
-    @ParameterizedTest
     @ValueSource(strings = {
         "/repositorio-dados/consulta-dados-api-genius",
         "/repositorio-dados/consulta-dados-api-genius.txt",
@@ -50,7 +54,9 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         "/repositorio-dados/consulta-dados-api-genius.jar",
         "/repositorio-dados/consulta-dados-api-genius.yaml"
     })
-    void deveLancarExcecaoComCaminhoJsonInvalidoNulo_B(final String arquivo) {
+    @ParameterizedTest(name = "Caso de teste: [ {0} ]")
+    @DisplayName("Deve lancar exceçao com caminho json inválido")
+    void deveLancarExcecaoComCaminhoJsonInvalidoExtensao(final String arquivo) {
         executarTesteLancarExcecao(arquivo, "Caminho arquivo json ter a extensão .json!");
     }
 
