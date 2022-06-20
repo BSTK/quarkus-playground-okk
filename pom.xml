@@ -41,11 +41,13 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>quarkus-playground-okk/okk-gatway-api/src/main/resources/META-INF/resources/index.html</exclude>
+                        <exclude>**/META-INF/resources/*.html</exclude>
+                        <!--
                         <exclude>quarkus-playground-okk/okk-upload-github/src/main/resources/META-INF/resources/index.html</exclude>
                         <exclude>quarkus-playground-okk/okk-exportador-api-pdf/src/main/resources/META-INF/resources/index.html</exclude>
                         <exclude>quarkus-playground-okk/okk-exportador-api-excel/src/main/resources/META-INF/resources/index.html</exclude>
                         <exclude>quarkus-playground-okk/okk-exportador-api-csv-txt/src/main/resources/META-INF/resources/index.html</exclude>
+                        -->
                     </excludes>
                 </configuration>
                 <executions>
