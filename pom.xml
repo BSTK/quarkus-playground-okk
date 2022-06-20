@@ -39,6 +39,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>okk-gatway-api/src/main/resources/META-INF/resources/index.html</exclude>
+                        <exclude>okk-upload-github/src/main/resources/META-INF/resources/index.html</exclude>
+                        <exclude>okk-exportador-api-pdf/src/main/resources/META-INF/resources/index.html</exclude>
+                        <exclude>okk-exportador-api-excel/src/main/resources/META-INF/resources/index.html</exclude>
+                        <exclude>okk-exportador-api-csv-txt/src/main/resources/META-INF/resources/index.html</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
