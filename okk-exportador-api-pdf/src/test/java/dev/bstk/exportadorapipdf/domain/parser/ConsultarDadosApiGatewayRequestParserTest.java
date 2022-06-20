@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.Map;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class ConsultarDadosApiGatewayRequestParserTest {
 
     @InjectMocks
@@ -25,11 +28,13 @@ class ConsultarDadosApiGatewayRequestParserTest {
     @Mock
     protected ConsultarDadosApiGatewayLeitorArquivosJson leitorArquivosJson;
 
+
     @Test
     @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
     void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacao() {
+        final ConsultaApiRequest requestMock = request();
         when(leitorArquivosJson.parse(ConsultaApiRequest.class))
-            .thenReturn(requests());
+            .thenReturn(List.of(requestMock, requestMock, requestMock));
 
         final ConsultaApiRequest request = requestParser.request();
 
@@ -46,29 +51,51 @@ class ConsultarDadosApiGatewayRequestParserTest {
         }
     }
 
-    private List<ConsultaApiRequest> requests() {
+    @Test
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
+    void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoParaUmaUrlComId() {
+        final ConsultaApiRequest requestMock = request();
+        for (ConsultaApiItemRequest api : requestMock.getApis()) {
+            api.setUrl("https:mock-api.com/{ID}");
+        }
+
+        when(leitorArquivosJson.parse(ConsultaApiRequest.class))
+            .thenReturn(List.of(requestMock, requestMock, requestMock));
+
+        final ConsultaApiRequest request = requestParser.request();
+
+        Assertions.assertNotNull(request);
+        Assertions.assertNotNull(request.getApis());
+        Assertions.assertFalse(request.getApis().isEmpty());
+        Assertions.assertNotNull(request.getAppCliente());
+
+        for (final ConsultaApiItemRequest api : request.getApis()) {
+            Assertions.assertNull(api.getApiObterToken());
+
+            Assertions.assertNotNull(api.getUrl());
+            Assertions.assertFalse(api.getUrl().isEmpty());
+            Assertions.assertFalse(api.getUrl().isBlank());
+
+            final String[] url = api.getUrl().split("/");
+            final String urlUltimoPath = url[url.length - 1];
+
+            Assertions.assertTrue(Character.isDigit(urlUltimoPath.charAt(0)));
+        }
+    }
+
+    private ConsultaApiRequest request() {
         final Map<String, String> queryHeadersParam = Map.of("CHAVE_A", "VALOR_A", "CHAVE_B", "VALOR_B");
 
-        final ConsultaApiItemRequest itemRequestA = new ConsultaApiItemRequest();
-        itemRequestA.setUrl("https:mock-api.com");
-        itemRequestA.setHeaders(queryHeadersParam);
-        itemRequestA.setQueryParams(queryHeadersParam);
-        itemRequestA.setNomeApiExterna("MOCK-API-EXTERNA_A");
+        final ConsultaApiItemRequest itemRequest = new ConsultaApiItemRequest();
+        itemRequest.setUrl("https:mock-api.com");
+        itemRequest.setHeaders(queryHeadersParam);
+        itemRequest.setQueryParams(queryHeadersParam);
+        itemRequest.setNomeApiExterna("MOCK-API-EXTERNA");
 
-        final ConsultaApiRequest requestA = new ConsultaApiRequest();
-        requestA.setApis(Collections.singletonList(itemRequestA));
-        requestA.setAppCliente("APP_CLIENTE_MOCK_A");
+        final ConsultaApiRequest request = new ConsultaApiRequest();
+        request.setApis(Collections.singletonList(itemRequest));
+        request.setAppCliente("APP_CLIENTE_MOCK");
 
-        final ConsultaApiItemRequest itemRequestB = new ConsultaApiItemRequest();
-        itemRequestB.setUrl("https:mock-api.com");
-        itemRequestB.setHeaders(queryHeadersParam);
-        itemRequestB.setQueryParams(queryHeadersParam);
-        itemRequestB.setNomeApiExterna("MOCK-API-EXTERNA_A");
-
-        final ConsultaApiRequest requestB = new ConsultaApiRequest();
-        requestB.setApis(Collections.singletonList(itemRequestB));
-        requestB.setAppCliente("APP_CLIENTE_MOCK_B");
-
-        return List.of(requestA, requestB);
+        return request;
     }
 }

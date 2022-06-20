@@ -63,7 +63,7 @@ public class ConsultarDadosApiGatewayRequestParser {
 
     private void aplicarRegraUrl(final ConsultaApiItemRequest api) {
         if (api.getUrl().contains(PATH_PARAM_ID)) {
-            final String novaUrl = api.getUrl().replace(PATH_PARAM_ID, FAKER.idNumber().valid());
+            final String novaUrl = api.getUrl().replace(PATH_PARAM_ID, FAKER.number().digit());
             api.setUrl(novaUrl);
         }
 
