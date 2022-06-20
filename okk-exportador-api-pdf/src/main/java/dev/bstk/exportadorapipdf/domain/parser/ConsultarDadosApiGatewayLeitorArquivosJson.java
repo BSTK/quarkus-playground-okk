@@ -29,8 +29,8 @@ public class ConsultarDadosApiGatewayLeitorArquivosJson {
                 final var jsonParseado = MAPPER.readValue(json, clazz);
 
                 arquivosParseados.add(jsonParseado);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                throw new IllegalArgumentException("Arquivos de dados das api's não foram encontrados!", ex);
             }
         }
 
