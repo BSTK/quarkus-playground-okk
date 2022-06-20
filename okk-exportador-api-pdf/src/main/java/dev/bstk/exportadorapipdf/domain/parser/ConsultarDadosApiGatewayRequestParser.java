@@ -49,7 +49,7 @@ public class ConsultarDadosApiGatewayRequestParser {
         return request;
     }
 
-    public List<ConsultaApiRequest> obterDadosRequest() {
+    private List<ConsultaApiRequest> obterDadosRequest() {
         final List<ConsultaApiRequest> consultaApiRequestsCache = CACHE.get(CACHE_CONSULTA_API_REQUEST_CHAVE);
         if (Objects.nonNull(consultaApiRequestsCache)) {
             return consultaApiRequestsCache;
