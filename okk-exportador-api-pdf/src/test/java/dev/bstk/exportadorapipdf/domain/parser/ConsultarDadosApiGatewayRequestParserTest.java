@@ -37,18 +37,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
             .thenReturn(List.of(requestMock, requestMock, requestMock));
 
         final ConsultaApiRequest request = requestParser.request();
-
-        Assertions.assertNotNull(request);
-        Assertions.assertNotNull(request.getApis());
-        Assertions.assertFalse(request.getApis().isEmpty());
-        Assertions.assertNotNull(request.getAppCliente());
-
-        for (final ConsultaApiItemRequest api : request.getApis()) {
-            Assertions.assertNotNull(api.getUrl());
-            Assertions.assertNull(api.getApiObterToken());
-            Assertions.assertFalse(api.getUrl().isEmpty());
-            Assertions.assertFalse(api.getUrl().isBlank());
-        }
+        validarAssertionsPadrao(request);
     }
 
     @Test
@@ -64,6 +53,17 @@ class ConsultarDadosApiGatewayRequestParserTest {
 
         final ConsultaApiRequest request = requestParser.request();
 
+        validarAssertionsPadrao(request);
+
+        for (final ConsultaApiItemRequest api : request.getApis()) {
+            final String[] url = api.getUrl().split("/");
+            final String urlUltimoPath = url[url.length - 1];
+
+            Assertions.assertTrue(Character.isDigit(urlUltimoPath.charAt(0)));
+        }
+    }
+
+    private void validarAssertionsPadrao(final ConsultaApiRequest request) {
         Assertions.assertNotNull(request);
         Assertions.assertNotNull(request.getApis());
         Assertions.assertFalse(request.getApis().isEmpty());
@@ -71,15 +71,9 @@ class ConsultarDadosApiGatewayRequestParserTest {
 
         for (final ConsultaApiItemRequest api : request.getApis()) {
             Assertions.assertNull(api.getApiObterToken());
-
             Assertions.assertNotNull(api.getUrl());
             Assertions.assertFalse(api.getUrl().isEmpty());
             Assertions.assertFalse(api.getUrl().isBlank());
-
-            final String[] url = api.getUrl().split("/");
-            final String urlUltimoPath = url[url.length - 1];
-
-            Assertions.assertTrue(Character.isDigit(urlUltimoPath.charAt(0)));
         }
     }
 
