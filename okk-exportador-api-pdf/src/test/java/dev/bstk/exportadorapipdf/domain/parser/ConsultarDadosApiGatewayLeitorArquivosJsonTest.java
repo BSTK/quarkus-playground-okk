@@ -33,7 +33,6 @@ class ConsultarDadosApiGatewayLeitorArquivosJsonTest {
         executarTesteLancarExcecao(arquivo, "Caminho arquivo json não pode ser nulo ou vazio!");
     }
 
-
     @ValueSource(strings = {
         "repositorio-dados/consulta-dados-api-genius.json",
         "@repositorio-dados/consulta-dados-api-genius.json",
