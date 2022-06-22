@@ -97,7 +97,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
     }
 
     @Test
-    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação paraUma Url com [ Search ]")
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação com queryparam [ Page ]")
     void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoComQueryParamsPage() {
         final ConsultaApiRequest requestMock = request();
         for (ConsultaApiItemRequest api : requestMock.getApis()) {
@@ -114,7 +114,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
     }
 
     @Test
-    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação paraUma Url com [ Search ]")
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação com queryparam [ Per Page ]")
     void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoComQueryParamsPerPage() {
         final ConsultaApiRequest requestMock = request();
         for (ConsultaApiItemRequest api : requestMock.getApis()) {
