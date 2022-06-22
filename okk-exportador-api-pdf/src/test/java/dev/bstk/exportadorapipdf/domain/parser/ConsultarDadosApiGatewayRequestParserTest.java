@@ -54,7 +54,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
     }
 
     @Test
-    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação para uma url com [ Id ]")
     void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoParaUmaUrlComId() {
         final ConsultaApiRequest requestMock = request();
         for (ConsultaApiItemRequest api : requestMock.getApis()) {
@@ -77,7 +77,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
     }
 
     @Test
-    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação paraUma Url com [ Search ]")
     void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoParaUmaUrlComSearch() {
         final ConsultaApiRequest requestMock = request();
         for (ConsultaApiItemRequest api : requestMock.getApis()) {
@@ -97,6 +97,30 @@ class ConsultarDadosApiGatewayRequestParserTest {
             Assertions.assertTrue(api.getQueryParams().containsKey("q"));
         }
     }
+
+    @Test
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação paraUma Url com [ Search ]")
+    void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoComQueryParamsPage() {
+        final ConsultaApiRequest requestMock = request();
+        for (ConsultaApiItemRequest api : requestMock.getApis()) {
+            api.getQueryParams().put("page", "1");
+        }
+
+        when(leitorArquivosJson.parse(ConsultaApiRequest.class))
+            .thenReturn(List.of(requestMock, requestMock, requestMock));
+
+        final ConsultaApiRequest request = requestParser.request();
+
+        validarAssertionsPadrao(request);
+
+        for (final ConsultaApiItemRequest api : request.getApis()) {
+            Assertions.assertNotNull(api.getQueryParams());
+            Assertions.assertFalse(api.getQueryParams().isEmpty());
+            Assertions.assertTrue(api.getQueryParams().containsKey("page"));
+        }
+    }
+
+    // per_page
 
     private void validarAssertionsPadrao(final ConsultaApiRequest request) {
         Assertions.assertNotNull(request);
