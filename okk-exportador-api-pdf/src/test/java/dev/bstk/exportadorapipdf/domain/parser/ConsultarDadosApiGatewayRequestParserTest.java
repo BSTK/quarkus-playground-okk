@@ -2,9 +2,7 @@ package dev.bstk.exportadorapipdf.domain.parser;
 
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiItemRequest;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,9 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mockito.Mockito.when;
 
@@ -28,6 +30,17 @@ class ConsultarDadosApiGatewayRequestParserTest {
     @Mock
     protected ConsultarDadosApiGatewayLeitorArquivosJson leitorArquivosJson;
 
+
+    @BeforeEach
+    void tearDown() throws NoSuchFieldException, IllegalAccessException {
+        final Field cache = ConsultarDadosApiGatewayRequestParser.class.getDeclaredField("CACHE");
+        cache.setAccessible(true);
+
+        final Field camposModificados = Field.class.getDeclaredField("modifiers");
+        camposModificados.setAccessible(true);
+        camposModificados.setInt(cache, cache.getModifiers() & ~Modifier.FINAL);
+        cache.set(null, new ConcurrentHashMap<>());
+    }
 
     @Test
     @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
@@ -63,6 +76,28 @@ class ConsultarDadosApiGatewayRequestParserTest {
         }
     }
 
+    @Test
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação")
+    void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoParaUmaUrlComSearch() {
+        final ConsultaApiRequest requestMock = request();
+        for (ConsultaApiItemRequest api : requestMock.getApis()) {
+            api.setUrl("https:mock-api.com/search");
+        }
+
+        when(leitorArquivosJson.parse(ConsultaApiRequest.class))
+            .thenReturn(List.of(requestMock, requestMock, requestMock));
+
+        final ConsultaApiRequest request = requestParser.request();
+
+        validarAssertionsPadrao(request);
+
+        for (final ConsultaApiItemRequest api : request.getApis()) {
+            Assertions.assertNotNull(api.getQueryParams());
+            Assertions.assertFalse(api.getQueryParams().isEmpty());
+            Assertions.assertTrue(api.getQueryParams().containsKey("q"));
+        }
+    }
+
     private void validarAssertionsPadrao(final ConsultaApiRequest request) {
         Assertions.assertNotNull(request);
         Assertions.assertNotNull(request.getApis());
@@ -78,7 +113,9 @@ class ConsultarDadosApiGatewayRequestParserTest {
     }
 
     private ConsultaApiRequest request() {
-        final Map<String, String> queryHeadersParam = Map.of("CHAVE_A", "VALOR_A", "CHAVE_B", "VALOR_B");
+        final Map<String, String> queryHeadersParam = new HashMap<>();
+        queryHeadersParam.put("CHAVE_A", "VALOR_A");
+        queryHeadersParam.put("CHAVE_B", "VALOR_B");
 
         final ConsultaApiItemRequest itemRequest = new ConsultaApiItemRequest();
         itemRequest.setUrl("https:mock-api.com");
