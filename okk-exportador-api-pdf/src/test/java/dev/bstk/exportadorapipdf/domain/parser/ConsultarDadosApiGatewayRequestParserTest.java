@@ -2,7 +2,10 @@ package dev.bstk.exportadorapipdf.domain.parser;
 
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiItemRequest;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -90,12 +93,7 @@ class ConsultarDadosApiGatewayRequestParserTest {
         final ConsultaApiRequest request = requestParser.request();
 
         validarAssertionsPadrao(request);
-
-        for (final ConsultaApiItemRequest api : request.getApis()) {
-            Assertions.assertNotNull(api.getQueryParams());
-            Assertions.assertFalse(api.getQueryParams().isEmpty());
-            Assertions.assertTrue(api.getQueryParams().containsKey("q"));
-        }
+        validarAssertionsPadraoQueryParams(request, "q");
     }
 
     @Test
@@ -112,15 +110,25 @@ class ConsultarDadosApiGatewayRequestParserTest {
         final ConsultaApiRequest request = requestParser.request();
 
         validarAssertionsPadrao(request);
-
-        for (final ConsultaApiItemRequest api : request.getApis()) {
-            Assertions.assertNotNull(api.getQueryParams());
-            Assertions.assertFalse(api.getQueryParams().isEmpty());
-            Assertions.assertTrue(api.getQueryParams().containsKey("page"));
-        }
+        validarAssertionsPadraoQueryParams(request, "page");
     }
 
-    // per_page
+    @Test
+    @DisplayName("Deve retonar dados parseados para uma request válida sem token de autenticação paraUma Url com [ Search ]")
+    void deveRetonarDadosParseadosParaUmaRequestValidaSemTokenDeAutenticacaoComQueryParamsPerPage() {
+        final ConsultaApiRequest requestMock = request();
+        for (ConsultaApiItemRequest api : requestMock.getApis()) {
+            api.getQueryParams().put("per_page", "1");
+        }
+
+        when(leitorArquivosJson.parse(ConsultaApiRequest.class))
+            .thenReturn(List.of(requestMock, requestMock, requestMock));
+
+        final ConsultaApiRequest request = requestParser.request();
+
+        validarAssertionsPadrao(request);
+        validarAssertionsPadraoQueryParams(request, "per_page");
+    }
 
     private void validarAssertionsPadrao(final ConsultaApiRequest request) {
         Assertions.assertNotNull(request);
@@ -133,6 +141,15 @@ class ConsultarDadosApiGatewayRequestParserTest {
             Assertions.assertNotNull(api.getUrl());
             Assertions.assertFalse(api.getUrl().isEmpty());
             Assertions.assertFalse(api.getUrl().isBlank());
+        }
+    }
+
+    private void validarAssertionsPadraoQueryParams(final ConsultaApiRequest request,
+                                                    final String queryParamChave) {
+        for (final ConsultaApiItemRequest api : request.getApis()) {
+            Assertions.assertNotNull(api.getQueryParams());
+            Assertions.assertFalse(api.getQueryParams().isEmpty());
+            Assertions.assertTrue(api.getQueryParams().containsKey(queryParamChave));
         }
     }
 
