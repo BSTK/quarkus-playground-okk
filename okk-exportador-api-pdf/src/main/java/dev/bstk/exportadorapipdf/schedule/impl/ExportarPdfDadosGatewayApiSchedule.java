@@ -18,7 +18,7 @@ class ExportarPdfDadosGatewayApiSchedule implements OkkSchedule {
     protected ExportarPdfDadosGatewayApiService exportarPdfDadosGatewayApiService;
 
     @Override
-    @Scheduled(every = "4s")
+    /// @Scheduled(every = "4s")
     public void executar() {
         LOG.info("Executando ExportarPdfDadosGatewayApiSchedule ...");
         exportarPdfDadosGatewayApiService.exportar();

@@ -3,9 +3,9 @@ package dev.bstk.exportadorapipdf.domain.service;
 import dev.bstk.exportadorapipdf.gateway.ConsultaDadosGatewayApi;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
-import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayConteudoPdfParser;
+import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
 import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
-import dev.bstk.exportadorapipdf.domain.parser.model.GeniusSongsConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,7 +22,7 @@ public class ConsultarDadosApiGatewayService {
     protected ConsultarDadosApiGatewayRequestParser requestParser;
 
     @Inject
-    protected ConsultarDadosApiGatewayConteudoPdfParser conteudoPdfParser;
+    protected GeniusEndpointSearchConteudoPdfParserImpl conteudoPdfParser;
 
 
     /// TODO: OBTEM OS DADOS DA API GATEWAY
@@ -31,7 +31,7 @@ public class ConsultarDadosApiGatewayService {
     public void consultarDados() {
         final ConsultaApiRequest request = requestParser.request();
         final ConsultaApiResponse response = consultaDadosGatewayApi.apis(request);
-        final GeniusSongsConteudoPdf conteudoPdf = conteudoPdfParser.dadosPdf(response);
+        final GeniusEndpointSearchConteudoPdf conteudoPdf = conteudoPdfParser.pdf(response);
 
         /// TODO: CASO SUCESSO, INSERIR NAS TABELAS PARA SEREM EXPORTADOS EM PDF
         /// TODO: SALVAR DADOS: conteudoPdf

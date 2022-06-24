@@ -3,7 +3,7 @@ package dev.bstk.exportadorapipdf.domain.parser.model;
 import java.io.File;
 import java.io.Serializable;
 
-public class GeniusSongsConteudoPdf implements Serializable {
+public class GeniusEndpointSearchConteudoPdf implements Serializable {
 
     private File fotoAlbum;
     private String musica;

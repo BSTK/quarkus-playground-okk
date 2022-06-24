@@ -18,7 +18,7 @@ public class UploadPdfDadosGatwayApiSchedule implements OkkSchedule {
     protected UploadPdfDadosGatewayApiService uploadPdfDadosGatewayApiService;
 
     @Override
-    @Scheduled(every = "10s")
+    // @Scheduled(every = "10s")
     public void executar() {
         LOG.info("Executando UploadPdfDadosGatwayApiSchedule ...");
         uploadPdfDadosGatewayApiService.upload();

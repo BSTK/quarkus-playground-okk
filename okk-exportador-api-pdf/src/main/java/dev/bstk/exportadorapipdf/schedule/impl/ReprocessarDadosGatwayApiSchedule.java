@@ -18,7 +18,7 @@ public class ReprocessarDadosGatwayApiSchedule implements OkkSchedule {
     protected ReprocessarDadosGatwayApiService reprocessarDadosGatwayApiService;
 
     @Override
-    @Scheduled(every = "10s")
+    // @Scheduled(every = "10s")
     public void executar() {
         LOG.info("Executando ReprocessarDadosGatwayApiSchedule ...");
         reprocessarDadosGatwayApiService.reprocessar();

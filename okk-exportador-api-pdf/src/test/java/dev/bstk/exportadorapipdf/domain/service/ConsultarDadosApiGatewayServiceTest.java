@@ -1,8 +1,8 @@
 package dev.bstk.exportadorapipdf.domain.service;
 
-import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayConteudoPdfParser;
+import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
 import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
-import dev.bstk.exportadorapipdf.domain.parser.model.GeniusSongsConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.gateway.ConsultaDadosGatewayApi;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +30,7 @@ class ConsultarDadosApiGatewayServiceTest {
     protected ConsultarDadosApiGatewayRequestParser requestParser;
 
     @Mock
-    protected ConsultarDadosApiGatewayConteudoPdfParser conteudoPdfParser;
+    protected GeniusEndpointSearchConteudoPdfParserImpl conteudoPdfParser;
 
 
     @Test
@@ -39,12 +38,12 @@ class ConsultarDadosApiGatewayServiceTest {
     void deveConsultarDadosDasApisNoGatewayDeApi() {
         when(requestParser.request()).thenReturn(new ConsultaApiRequest());
         when(consultaDadosGatewayApi.apis(any(ConsultaApiRequest.class))).thenReturn(new ConsultaApiResponse());
-        when(conteudoPdfParser.dadosPdf(any(ConsultaApiResponse.class))).thenReturn(new GeniusSongsConteudoPdf());
+        when(conteudoPdfParser.pdf(any(ConsultaApiResponse.class))).thenReturn(new GeniusEndpointSearchConteudoPdf());
 
         consultarDadosApiGatewayService.consultarDados();
 
         verify(requestParser).request();
         verify(consultaDadosGatewayApi).apis(any(ConsultaApiRequest.class));
-        verify(conteudoPdfParser).dadosPdf(any(ConsultaApiResponse.class));
+        verify(conteudoPdfParser).pdf(any(ConsultaApiResponse.class));
     }
 }

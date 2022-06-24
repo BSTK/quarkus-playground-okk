@@ -1,6 +1,7 @@
 package dev.bstk.exportadorapipdf.domain.parser;
 
 import com.github.javafaker.Faker;
+import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayLeitorArquivosJson;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiItemRequest;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 

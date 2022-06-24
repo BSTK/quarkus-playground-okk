@@ -1,6 +1,6 @@
 package dev.bstk.exportadorapipdf.domain.parser;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.bstk.exportadorapipdf.helper.JSONHelper;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,7 +13,6 @@ import java.util.Objects;
 @ApplicationScoped
 public class ConsultarDadosApiGatewayLeitorArquivosJson {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final String SRC_MAIN_RESOURCES = "src/main/resources";
 
     @ConfigProperty(name = "exportadorpdf.arquivos.dados")
@@ -26,7 +25,7 @@ public class ConsultarDadosApiGatewayLeitorArquivosJson {
             try {
                 validarCaminhoArquivoFixtureResource(arquivo);
                 final var json = new File(SRC_MAIN_RESOURCES + arquivo);
-                final var jsonParseado = MAPPER.readValue(json, clazz);
+                final var jsonParseado = JSONHelper.mapper().readValue(json, clazz);
 
                 arquivosParseados.add(jsonParseado);
             } catch (IOException ex) {
