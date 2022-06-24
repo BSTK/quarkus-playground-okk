@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.json.bind.annotation.JsonbProperty;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,7 +13,7 @@ public class GeniusSearchArtistResponse implements Serializable {
     private Meta meta;
 
     @JsonbProperty("hits")
-    private List<Hit> hits;
+    private List<Resultado> resultado;
 
     public Meta getMeta() {
         return meta;
@@ -24,12 +23,12 @@ public class GeniusSearchArtistResponse implements Serializable {
         this.meta = meta;
     }
 
-    public List<Hit> getHits() {
-        return hits;
+    public List<Resultado> getResultado() {
+        return resultado;
     }
 
-    public void setHits(List<Hit> hits) {
-        this.hits = hits;
+    public void setResultado(List<Resultado> resultado) {
+        this.resultado = resultado;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -48,10 +47,13 @@ public class GeniusSearchArtistResponse implements Serializable {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Hit implements Serializable {
+    public static class Resultado implements Serializable {
+
+        @JsonbProperty("result.primary_artist.name")
+        private String artista;
 
         @JsonbProperty("result.artist_names")
-        private String artista;
+        private String album;
 
         @JsonbProperty("result.title")
         private String musica;
@@ -59,14 +61,8 @@ public class GeniusSearchArtistResponse implements Serializable {
         @JsonbProperty("result.header_image_thumbnail_url")
         private String image;
 
-        @JsonbProperty("result.release_date_components.day")
-        private int dia;
-
-        @JsonbProperty("result.release_date_components.month")
-        private int mes;
-
         @JsonbProperty("result.release_date_components.year")
-        private int ano;
+        private String ano;
 
         public String getArtista() {
             return artista;
@@ -92,21 +88,20 @@ public class GeniusSearchArtistResponse implements Serializable {
             this.image = image;
         }
 
-        public LocalDate getData() {
-            return LocalDate.of(ano, mes, dia);
+        public String getAno() {
+            return ano;
         }
 
-        public void setDia(int dia) {
-            this.dia = dia;
-        }
-
-        public void setMes(int mes) {
-            this.mes = mes;
-        }
-
-        public void setAno(int ano) {
+        public void setAno(String ano) {
             this.ano = ano;
         }
 
+        public String getAlbum() {
+            return album;
+        }
+
+        public void setAlbum(String album) {
+            this.album = album;
+        }
     }
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/// TODO: REFATORAR PARA BIBLIOTECA OKK-UTILS
 public final class TestHelper {
 
     private static final String SRC_TEST_RESOURCES = "src/test/resources";
