@@ -2,8 +2,8 @@ package dev.bstk.exportadorapipdf.domain.parser.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.bstk.exportadorapipdf.domain.parser.ConteudoPdfParser;
-import dev.bstk.exportadorapipdf.domain.parser.model.ApiResponse;
 import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.parser.model.genius.GeniusSearchArtistResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import dev.bstk.exportadorapipdf.helper.JSONHelper;
@@ -38,9 +38,9 @@ public class GeniusEndpointSearchConteudoPdfParserImpl implements ConteudoPdfPar
         try {
             ConsultaApiDadosItemResponse consultaApiDadosItemResponse = responseGeniusEndpointSearc.get();
             final String responseJson = JSONHelper.mapper().writeValueAsString(consultaApiDadosItemResponse.getResponse());
-            final ApiResponse apiResponse = JSONHelper.mapper().readValue(responseJson, ApiResponse.class);
+            final GeniusSearchArtistResponse geniusSearchArtistResponse = JSONHelper.mapper().readValue(responseJson, GeniusSearchArtistResponse.class);
 
-            if (apiResponse.getMeta().getStatus() == 200) {
+            if (geniusSearchArtistResponse.getMeta().getStatus() == 200) {
                 System.out.println("** SUCESSO **");
                 System.out.println("** SUCESSO **");
                 System.out.println("-------------");
