@@ -6,6 +6,7 @@ import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import helper.TestHelper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -29,5 +30,17 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
         final GeniusEndpointSearchConteudoPdf pdf = conteudoPdfParser.pdf(consultaApiResponse);
 
         Assertions.assertNotNull(pdf);
+    }
+
+    @Test
+    @DisplayName("Deve lancar exceção de response inválida [ null ]")
+    void deveLancarExcecaoDeResponseInvalidaNull() {
+        final Exception exception = Assertions
+            .assertThrows(
+                IllegalStateException.class,
+                () -> conteudoPdfParser.pdf(null)
+            );
+
+        Assertions.assertEquals("Response inválida! Reprocessar!", exception.getMessage());
     }
 }
