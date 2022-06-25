@@ -39,13 +39,14 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
         Assertions.assertNotNull(pdf.getFotoAlbum());
     }
 
-    @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {
         "Genius Songs",
         "Genius Searc",
         "Genius Query"
     })
+    @ParameterizedTest(name = "Caso de teste nomeApiExterna = [ {0} ]")
+    @DisplayName("Deve retornar [ Null ] quando response não for do endpoint [ Search ]")
     void deveRetornarNullQuandoResponseNaoForDoEndpointSearch(final String nomeApiExterna) {
         final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
         itemResponse.setNomeApiExterna(nomeApiExterna);
