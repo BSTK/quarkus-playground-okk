@@ -60,25 +60,22 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
     @ParameterizedTest(name = "Caso de teste nomeApiExterna = [ {0} ]")
     @DisplayName("Deve retornar [ Null ] quando response não for do endpoint [ Search ]")
     void deveRetornarNullQuandoResponseNaoForDoEndpointSearch(final String nomeApiExterna) {
-        final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
-        itemResponse.setNomeApiExterna(nomeApiExterna);
-        itemResponse.setResponse(TestHelper.parse("/genius-search-response.json", Object.class));
-
-        final ConsultaApiResponse consultaApiResponse = new ConsultaApiResponse();
-        consultaApiResponse.setDados(Collections.singletonList(itemResponse));
-        consultaApiResponse.setDataHoraRequest(LocalDate.now().toString());
-
-        final GeniusEndpointSearchConteudoPdf pdf = conteudoPdfParser.pdf(consultaApiResponse);
-
-        Assertions.assertNull(pdf);
+        executarAssertParaRetornoNull(nomeApiExterna, "/genius-search-response.json");
     }
 
     @Test
     @DisplayName("Deve retornar [ Null ] quando response vier com status diferente de 200")
     void deveRetornarNullQuandoResponseVierComStatusDiferenteDe200() {
+        executarAssertParaRetornoNull(
+            "Genius Search",
+            "/genius-search-response-com-status-code-400-erro.json");
+    }
+
+    void executarAssertParaRetornoNull(final String nomeApiExterna,
+                                       final String arquivoResponse) {
         final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
-        itemResponse.setNomeApiExterna("Genius Search");
-        itemResponse.setResponse(TestHelper.parse("/genius-search-response-com-status-code-400-erro.json", Object.class));
+        itemResponse.setNomeApiExterna(nomeApiExterna);
+        itemResponse.setResponse(TestHelper.parse(arquivoResponse, Object.class));
 
         final ConsultaApiResponse consultaApiResponse = new ConsultaApiResponse();
         consultaApiResponse.setDados(Collections.singletonList(itemResponse));
