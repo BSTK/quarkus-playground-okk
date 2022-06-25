@@ -1,10 +1,12 @@
 package dev.bstk.exportadorapipdf.domain.parser.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import helper.TestHelper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,6 +48,28 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
             .assertThrows(
                 IllegalStateException.class,
                 () -> conteudoPdfParser.pdf(null)
+            );
+
+        Assertions.assertEquals("Response inválida! Reprocessar!", exception.getMessage());
+    }
+
+    @Test
+    @Disabled
+    @DisplayName("Deve lancar exceção de response inválida [ null ]")
+    /// TODO: REFATORAR TESTE PARA CAIR NO CASO DE EXEÇÃO JsonProcessingException
+    void deveLancarExcecaoDeJsonInvalido() {
+        final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
+        itemResponse.setNomeApiExterna("Genius Search");
+        itemResponse.setResponse(TestHelper.parse("/genius-search-response-com-json-invalido.json", Object.class));
+
+        final ConsultaApiResponse consultaApiResponse = new ConsultaApiResponse();
+        consultaApiResponse.setDados(Collections.singletonList(itemResponse));
+        consultaApiResponse.setDataHoraRequest(LocalDate.now().toString());
+
+        final Exception exception = Assertions
+            .assertThrows(
+                JsonProcessingException.class,
+                () -> conteudoPdfParser.pdf(consultaApiResponse)
             );
 
         Assertions.assertEquals("Response inválida! Reprocessar!", exception.getMessage());
