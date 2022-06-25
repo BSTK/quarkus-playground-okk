@@ -1,13 +1,11 @@
 package dev.bstk.exportadorapipdf.domain.parser.model.genius;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = GeniusSearchArtistResponseDeserializer.class)
 public class GeniusSearchArtistResponse implements Serializable {
 
     private Meta meta;

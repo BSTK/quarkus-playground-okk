@@ -1,6 +1,5 @@
 package dev.bstk.exportadorapipdf.domain.parser.model.genius;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +25,7 @@ public class GeniusSearchArtistResponseDeserializer extends StdDeserializer<Geni
 
     @Override
     public GeniusSearchArtistResponse deserialize(final JsonParser jsonParser,
-                                                  final DeserializationContext deserializationContext) throws IOException, JacksonException {
+                                                  final DeserializationContext deserializationContext) throws IOException {
         final JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
 
         final GeniusSearchArtistResponse.Meta meta = new GeniusSearchArtistResponse.Meta();
