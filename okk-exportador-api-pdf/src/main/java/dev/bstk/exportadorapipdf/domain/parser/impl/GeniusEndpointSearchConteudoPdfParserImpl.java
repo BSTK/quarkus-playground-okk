@@ -57,7 +57,7 @@ public class GeniusEndpointSearchConteudoPdfParserImpl implements ConteudoPdfPar
             final List<GeniusSearchArtistResponse.Dado> dados = geniusSearchArtistResponse.getDados();
 
             /// TODO: !dado.isEmpty() -> USAR BIBLIOTECA OKK-UTILS
-            if (geniusSearchArtistResponse.getMeta().getStatus() != HttpURLConnection.HTTP_OK && !dados.isEmpty()) {
+            if (geniusSearchArtistResponse.getMeta().getStatus() != HttpURLConnection.HTTP_OK || dados.isEmpty()) {
                 return null;
             }
 

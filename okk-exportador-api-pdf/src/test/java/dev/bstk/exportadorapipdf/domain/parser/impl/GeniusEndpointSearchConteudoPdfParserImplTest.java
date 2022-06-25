@@ -71,6 +71,14 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
             "/genius-search-response-com-status-code-400-erro.json");
     }
 
+    @Test
+    @DisplayName("Deve retornar [ Null ] quando response sem dados de retorno")
+    void deveRetornarNullQuandoResponseSemDadosDeRetorno() {
+        executarAssertParaRetornoNull(
+            "Genius Search",
+            "/genius-search-response-sem-dados-de-resultado.json");
+    }
+
     void executarAssertParaRetornoNull(final String nomeApiExterna,
                                        final String arquivoResponse) {
         final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
@@ -85,5 +93,4 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
 
         Assertions.assertNull(pdf);
     }
-
 }
