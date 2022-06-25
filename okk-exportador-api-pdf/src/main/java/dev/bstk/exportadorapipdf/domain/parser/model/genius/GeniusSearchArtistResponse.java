@@ -1,19 +1,17 @@
 package dev.bstk.exportadorapipdf.domain.parser.model.genius;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.json.bind.annotation.JsonbProperty;
 import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = GeniusSearchArtistResponseDeserializer.class)
 public class GeniusSearchArtistResponse implements Serializable {
 
-    @JsonbProperty("meta")
     private Meta meta;
-
-    @JsonbProperty("hits")
-    private List<Resultado> resultado;
+    private List<Dado> dados;
 
     public Meta getMeta() {
         return meta;
@@ -23,18 +21,16 @@ public class GeniusSearchArtistResponse implements Serializable {
         this.meta = meta;
     }
 
-    public List<Resultado> getResultado() {
-        return resultado;
+    public List<Dado> getDados() {
+        return dados;
     }
 
-    public void setResultado(List<Resultado> resultado) {
-        this.resultado = resultado;
+    public void setDados(List<Dado> dados) {
+        this.dados = dados;
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Meta implements Serializable {
 
-        @JsonbProperty("status")
         private int status;
 
         public int getStatus() {
@@ -46,22 +42,12 @@ public class GeniusSearchArtistResponse implements Serializable {
         }
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Resultado implements Serializable {
+    public static class Dado implements Serializable {
 
-        @JsonbProperty("result.primary_artist.name")
         private String artista;
-
-        @JsonbProperty("result.artist_names")
         private String album;
-
-        @JsonbProperty("result.title")
         private String musica;
-
-        @JsonbProperty("result.header_image_thumbnail_url")
         private String image;
-
-        @JsonbProperty("result.release_date_components.year")
         private String ano;
 
         public String getArtista() {
