@@ -39,6 +39,18 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
         Assertions.assertNotNull(pdf.getFotoAlbum());
     }
 
+    @Test
+    @DisplayName("Deve lancar exceção de response inválida [ null ]")
+    void deveLancarExcecaoDeResponseInvalidaNull() {
+        final Exception exception = Assertions
+            .assertThrows(
+                IllegalStateException.class,
+                () -> conteudoPdfParser.pdf(null)
+            );
+
+        Assertions.assertEquals("Response inválida! Reprocessar!", exception.getMessage());
+    }
+
     @NullAndEmptySource
     @ValueSource(strings = {
         "Genius Songs",
@@ -62,14 +74,19 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
     }
 
     @Test
-    @DisplayName("Deve lancar exceção de response inválida [ null ]")
-    void deveLancarExcecaoDeResponseInvalidaNull() {
-        final Exception exception = Assertions
-            .assertThrows(
-                IllegalStateException.class,
-                () -> conteudoPdfParser.pdf(null)
-            );
+    @DisplayName("Deve retornar [ Null ] quando response vier com status diferente de 200")
+    void deveRetornarNullQuandoResponseVierComStatusDiferenteDe200() {
+        final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
+        itemResponse.setNomeApiExterna("Genius Search");
+        itemResponse.setResponse(TestHelper.parse("/genius-search-response-com-status-code-400-erro.json", Object.class));
 
-        Assertions.assertEquals("Response inválida! Reprocessar!", exception.getMessage());
+        final ConsultaApiResponse consultaApiResponse = new ConsultaApiResponse();
+        consultaApiResponse.setDados(Collections.singletonList(itemResponse));
+        consultaApiResponse.setDataHoraRequest(LocalDate.now().toString());
+
+        final GeniusEndpointSearchConteudoPdf pdf = conteudoPdfParser.pdf(consultaApiResponse);
+
+        Assertions.assertNull(pdf);
     }
+
 }
