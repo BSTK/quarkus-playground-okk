@@ -20,6 +20,7 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
 
 
     @Test
+    @DisplayName("Deve gerar conteudo para pdf")
     void deveGerarConteudoParaPdf() {
         final ConsultaApiDadosItemResponse itemResponse = new ConsultaApiDadosItemResponse();
         itemResponse.setNomeApiExterna("Genius Search");
@@ -32,6 +33,10 @@ class GeniusEndpointSearchConteudoPdfParserImplTest {
         final GeniusEndpointSearchConteudoPdf pdf = conteudoPdfParser.pdf(consultaApiResponse);
 
         Assertions.assertNotNull(pdf);
+        Assertions.assertNotNull(pdf.getAno());
+        Assertions.assertNotNull(pdf.getAlbum());
+        Assertions.assertNotNull(pdf.getArtista());
+        Assertions.assertNotNull(pdf.getFotoAlbum());
     }
 
     @ParameterizedTest

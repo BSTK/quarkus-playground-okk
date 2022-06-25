@@ -64,7 +64,7 @@ public class GeniusEndpointSearchConteudoPdfParserImpl implements ConteudoPdfPar
             final GeniusSearchArtistResponse.Dado dado = dados.get(GeradorNumeroAleatorio.get(dados.size()));
             final GeniusEndpointSearchConteudoPdf conteudoPdf = new GeniusEndpointSearchConteudoPdf();
             conteudoPdf.setAno(dado.getAno());
-            conteudoPdf.setAlgum(dado.getAlbum());
+            conteudoPdf.setAlbum(dado.getAlbum());
             conteudoPdf.setMusica(dado.getMusica());
             conteudoPdf.setArtista(dado.getArtista());
             conteudoPdf.setFotoAlbum(new File(dado.getImage()));

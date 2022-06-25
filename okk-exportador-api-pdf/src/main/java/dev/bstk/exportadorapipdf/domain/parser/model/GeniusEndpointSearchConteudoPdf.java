@@ -8,7 +8,7 @@ public class GeniusEndpointSearchConteudoPdf implements Serializable {
     private File fotoAlbum;
     private String musica;
     private String artista;
-    private String algum;
+    private String album;
     private String ano;
 
     public File getFotoAlbum() {
@@ -35,12 +35,12 @@ public class GeniusEndpointSearchConteudoPdf implements Serializable {
         this.artista = artista;
     }
 
-    public String getAlgum() {
-        return algum;
+    public String getAlbum() {
+        return album;
     }
 
-    public void setAlgum(String algum) {
-        this.algum = algum;
+    public void setAlbum(String album) {
+        this.album = album;
     }
 
     public String getAno() {
@@ -57,7 +57,7 @@ public class GeniusEndpointSearchConteudoPdf implements Serializable {
             + "fotoAlbum=" + fotoAlbum
             + ", musica='" + musica + '\''
             + ", artista='" + artista + '\''
-            + ", algum='" + algum + '\''
+            + ", algum='" + album + '\''
             + ", ano='" + ano + '\''
             + '}';
     }
