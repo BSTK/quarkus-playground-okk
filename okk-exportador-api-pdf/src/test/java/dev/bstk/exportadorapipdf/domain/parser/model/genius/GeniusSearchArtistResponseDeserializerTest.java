@@ -2,6 +2,7 @@ package dev.bstk.exportadorapipdf.domain.parser.model.genius;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,6 +15,7 @@ class GeniusSearchArtistResponseDeserializerTest {
 
 
     @Test
+    @DisplayName("Deve desserializar um json válido")
     void deveDesserializarUmJsonValido() throws IOException {
         final GeniusSearchArtistResponse response = deserializer.deserialize(
             mapper.createParser(new File("src/test/resources/genius-search-response.json")),
@@ -34,6 +36,7 @@ class GeniusSearchArtistResponseDeserializerTest {
     }
 
     @Test
+    @DisplayName("Deve desserializar um json valido sem dados de retorno")
     void deveDesserializarUmJsonValidoSemDadosDeRetorno() throws IOException {
         final GeniusSearchArtistResponse response = deserializer.deserialize(
             mapper.createParser(new File("src/test/resources/genius-search-response-sem-dados-de-resultado.json")),
