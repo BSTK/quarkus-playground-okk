@@ -25,7 +25,7 @@ public class GeniusSearchArtistResponseDeserializer extends StdDeserializer<Geni
 
     @Override
     public GeniusSearchArtistResponse deserialize(final JsonParser jsonParser,
-                                                  final DeserializationContext deserializationContext) throws IOException {
+                                                  final DeserializationContext context) throws IOException {
         final JsonNode jsonNode = jsonParser.getCodec().readTree(jsonParser);
 
         final GeniusSearchArtistResponse.Meta meta = new GeniusSearchArtistResponse.Meta();
