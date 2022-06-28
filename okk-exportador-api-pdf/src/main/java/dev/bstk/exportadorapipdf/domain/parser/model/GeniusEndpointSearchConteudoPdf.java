@@ -57,7 +57,7 @@ public class GeniusEndpointSearchConteudoPdf implements Serializable {
             + "fotoAlbum=" + fotoAlbum
             + ", musica='" + musica + '\''
             + ", artista='" + artista + '\''
-            + ", algum='" + album + '\''
+            + ", album='" + album + '\''
             + ", ano='" + ano + '\''
             + '}';
     }

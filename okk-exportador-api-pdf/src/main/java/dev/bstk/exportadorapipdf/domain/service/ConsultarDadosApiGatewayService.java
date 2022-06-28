@@ -1,11 +1,11 @@
 package dev.bstk.exportadorapipdf.domain.service;
 
+import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
+import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
+import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.gateway.ConsultaDadosGatewayApi;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
-import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
-import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
-import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,8 +24,6 @@ public class ConsultarDadosApiGatewayService {
     @Inject
     protected GeniusEndpointSearchConteudoPdfParserImpl conteudoPdfParser;
 
-
-    /// TODO: OBTEM OS DADOS DA API GATEWAY
 
     /// TODO: CASO ERRO, INSERIR NA TABELA DE DADOS PARA SEREM REPROCESSADOS
     public void consultarDados() {
