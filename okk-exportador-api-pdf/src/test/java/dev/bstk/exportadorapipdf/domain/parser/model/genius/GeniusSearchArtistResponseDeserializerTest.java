@@ -9,12 +9,12 @@ import java.io.IOException;
 
 class GeniusSearchArtistResponseDeserializerTest {
 
+    private final ObjectMapper mapper = new ObjectMapper();
     private final GeniusSearchArtistResponseDeserializer deserializer = new GeniusSearchArtistResponseDeserializer();
 
 
     @Test
     void deveDesserializarUmJsonValido() throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
         final GeniusSearchArtistResponse response = deserializer.deserialize(
             mapper.createParser(new File("src/test/resources/genius-search-response.json")),
             mapper.getDeserializationContext());
@@ -31,5 +31,19 @@ class GeniusSearchArtistResponseDeserializerTest {
         Assertions.assertNotNull(dado.getAlbum());
         Assertions.assertNotNull(dado.getImage());
         Assertions.assertNotNull(dado.getArtista());
+    }
+
+    @Test
+    void deveDesserializarUmJsonValidoSemDadosDeRetorno() throws IOException {
+        final GeniusSearchArtistResponse response = deserializer.deserialize(
+            mapper.createParser(new File("src/test/resources/genius-search-response-sem-dados-de-resultado.json")),
+            mapper.getDeserializationContext());
+
+        Assertions.assertNotNull(response);
+        Assertions.assertNotNull(response.getMeta());
+        Assertions.assertEquals(400, response.getMeta().getStatus());
+
+        Assertions.assertNotNull(response.getDados());
+        Assertions.assertTrue(response.getDados().isEmpty());
     }
 }
