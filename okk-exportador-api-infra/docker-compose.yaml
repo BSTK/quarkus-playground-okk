@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  # POSTGRESQL: okk-exportador-api-pdf
+  database:
+    image: "postgres:14.1"
+    container_name: "postgresql-okk-exportador-api-pdf"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgresql
+      - POSTGRES_PASSWORD=postgresql
+      - POSTGRES_DB=okk-exportador-api-pdf

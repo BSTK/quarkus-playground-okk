@@ -1,8 +1,10 @@
 package dev.bstk.exportadorapipdf.domain.service;
 
+import dev.bstk.exportadorapipdf.domain.model.ConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdfRepository;
 import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
 import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
-import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.gateway.ConsultaDadosGatewayApi;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
@@ -21,18 +23,26 @@ public class ConsultarDadosApiGatewayService {
     @Inject
     protected ConsultarDadosApiGatewayRequestParser requestParser;
 
+    /// TODO: REFATORAR PARA FICAR GENÉRICO
     @Inject
     protected GeniusEndpointSearchConteudoPdfParserImpl conteudoPdfParser;
+
+    /// TODO: REFATORAR PARA FICAR GENÉRICO
+    @Inject
+    protected GeniusEndpointSearchConteudoPdfRepository geniusEndpointSearchConteudoPdfRepository;
 
 
     /// TODO: CASO ERRO, INSERIR NA TABELA DE DADOS PARA SEREM REPROCESSADOS
     public void consultarDados() {
         final ConsultaApiRequest request = requestParser.request();
         final ConsultaApiResponse response = consultaDadosGatewayApi.apis(request);
-        final GeniusEndpointSearchConteudoPdf conteudoPdf = conteudoPdfParser.pdf(response);
 
-        /// TODO: CASO SUCESSO, INSERIR NAS TABELAS PARA SEREM EXPORTADOS EM PDF
-        /// TODO: SALVAR DADOS: conteudoPdf
-        System.out.println("Salvando dados: " + conteudoPdf.toString());
+        /// TODO: REFATORAR PARA FICAR GENÉRICO
+        final GeniusEndpointSearchConteudoPdf geniusEndpointSearchConteudoPdf = conteudoPdfParser.pdf(response);
+
+        final ConteudoPdf<GeniusEndpointSearchConteudoPdf> conteudoPdf = new ConteudoPdf<>();
+        conteudoPdf.setDados(geniusEndpointSearchConteudoPdf);
+
+        geniusEndpointSearchConteudoPdfRepository.persist(conteudoPdf);
     }
 }

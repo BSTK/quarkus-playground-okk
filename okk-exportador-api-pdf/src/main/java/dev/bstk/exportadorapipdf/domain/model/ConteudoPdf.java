@@ -31,6 +31,18 @@ public class ConteudoPdf<T> implements Serializable {
     @Convert(converter = ConteudoPdfConverter.class)
     private T dados;
 
+    @PrePersist
+    protected void persist() {
+        setDataInsert(LocalDateTime.now());
+        setDataUpdate(LocalDateTime.now());
+        setStatus(null);
+    }
+
+    @PreUpdate
+    protected void update() {
+        setDataUpdate(LocalDateTime.now());
+    }
+
     public Long getId() {
         return id;
     }
