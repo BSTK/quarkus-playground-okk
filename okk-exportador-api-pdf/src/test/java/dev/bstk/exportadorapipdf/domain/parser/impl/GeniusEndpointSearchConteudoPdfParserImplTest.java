@@ -1,7 +1,7 @@
 package dev.bstk.exportadorapipdf.domain.parser.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import helper.TestHelper;

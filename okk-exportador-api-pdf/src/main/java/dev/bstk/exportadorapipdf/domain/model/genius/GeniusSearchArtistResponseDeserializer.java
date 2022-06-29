@@ -1,4 +1,4 @@
-package dev.bstk.exportadorapipdf.domain.parser.model.genius;
+package dev.bstk.exportadorapipdf.domain.model.genius;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

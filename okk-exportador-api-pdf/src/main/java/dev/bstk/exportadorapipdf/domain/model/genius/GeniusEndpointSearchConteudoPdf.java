@@ -1,4 +1,4 @@
-package dev.bstk.exportadorapipdf.domain.parser.model;
+package dev.bstk.exportadorapipdf.domain.model.genius;
 
 import java.io.File;
 import java.io.Serializable;

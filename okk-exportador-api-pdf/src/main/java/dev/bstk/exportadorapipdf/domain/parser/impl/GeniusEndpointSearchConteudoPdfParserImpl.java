@@ -3,9 +3,9 @@ package dev.bstk.exportadorapipdf.domain.parser.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.bstk.exportadorapipdf.domain.parser.ConteudoPdfParser;
-import dev.bstk.exportadorapipdf.domain.parser.model.GeniusEndpointSearchConteudoPdf;
-import dev.bstk.exportadorapipdf.domain.parser.model.genius.GeniusSearchArtistResponse;
-import dev.bstk.exportadorapipdf.domain.parser.model.genius.GeniusSearchArtistResponseDeserializer;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusSearchArtistResponse;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusSearchArtistResponseDeserializer;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import dev.bstk.exportadorapipdf.helper.GeradorNumeroAleatorio;
@@ -40,6 +40,8 @@ public class GeniusEndpointSearchConteudoPdfParserImpl implements ConteudoPdfPar
             .findFirst();
 
         if (responseGeniusEndpointSearc.isEmpty()) {
+            /// TODO: LANÇAR EXCEÇÃO DE Response inválida
+            ///  TODO: E NÃO TENTAR REPROCESSAR!
             return null;
         }
 
