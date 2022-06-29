@@ -1,8 +1,10 @@
 package dev.bstk.exportadorapipdf.domain.service;
 
-import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
-import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
+import dev.bstk.exportadorapipdf.domain.model.ConteudoPdf;
 import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdfRepository;
+import dev.bstk.exportadorapipdf.domain.parser.ConsultarDadosApiGatewayRequestParser;
+import dev.bstk.exportadorapipdf.domain.parser.impl.GeniusEndpointSearchConteudoPdfParserImpl;
 import dev.bstk.exportadorapipdf.gateway.ConsultaDadosGatewayApi;
 import dev.bstk.exportadorapipdf.gateway.request.ConsultaApiRequest;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
@@ -14,8 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ConsultarDadosApiGatewayServiceTest {
@@ -32,6 +33,9 @@ class ConsultarDadosApiGatewayServiceTest {
     @Mock
     protected GeniusEndpointSearchConteudoPdfParserImpl conteudoPdfParser;
 
+    @Mock
+    protected GeniusEndpointSearchConteudoPdfRepository geniusEndpointSearchConteudoPdfRepository;
+
 
     @Test
     @DisplayName("Deve consultar dados das apis no gateway de api")
@@ -39,11 +43,13 @@ class ConsultarDadosApiGatewayServiceTest {
         when(requestParser.request()).thenReturn(new ConsultaApiRequest());
         when(consultaDadosGatewayApi.apis(any(ConsultaApiRequest.class))).thenReturn(new ConsultaApiResponse());
         when(conteudoPdfParser.pdf(any(ConsultaApiResponse.class))).thenReturn(new GeniusEndpointSearchConteudoPdf());
+        doNothing().when(geniusEndpointSearchConteudoPdfRepository).persist(any(ConteudoPdf.class));
 
         consultarDadosApiGatewayService.consultarDados();
 
         verify(requestParser).request();
         verify(consultaDadosGatewayApi).apis(any(ConsultaApiRequest.class));
         verify(conteudoPdfParser).pdf(any(ConsultaApiResponse.class));
+        verify(geniusEndpointSearchConteudoPdfRepository).persist(any(ConteudoPdf.class));
     }
 }
