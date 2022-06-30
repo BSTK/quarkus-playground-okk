@@ -2,6 +2,7 @@ package dev.bstk.exportadorapipdf.schedule.impl;
 
 import dev.bstk.exportadorapipdf.domain.service.ExportarPdfDadosGatewayApiService;
 import dev.bstk.exportadorapipdf.schedule.OkkSchedule;
+import io.quarkus.scheduler.Scheduled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ class ExportarPdfDadosGatewayApiSchedule implements OkkSchedule {
     protected ExportarPdfDadosGatewayApiService exportarPdfDadosGatewayApiService;
 
     @Override
-    /// @Scheduled(every = "4s")
+    @Scheduled(every = "4s")
     public void executar() {
         LOG.info("Executando ExportarPdfDadosGatewayApiSchedule ...");
         exportarPdfDadosGatewayApiService.exportar();

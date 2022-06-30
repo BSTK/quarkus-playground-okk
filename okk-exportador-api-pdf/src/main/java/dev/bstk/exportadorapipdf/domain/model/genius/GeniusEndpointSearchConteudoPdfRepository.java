@@ -8,9 +8,9 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
 @ApplicationScoped
-public class GeniusEndpointSearchConteudoPdfRepository implements PanacheRepository<ConteudoPdf<GeniusEndpointSearchConteudoPdf>> {
+public class GeniusEndpointSearchConteudoPdfRepository implements PanacheRepository<ConteudoPdf> {
 
-    public List<ConteudoPdf<GeniusEndpointSearchConteudoPdf>> pdfsParaExportar() {
-        return find("status", Parameters.with("status", null)).firstResult();
+    public List<ConteudoPdf> pdfsParaExportar() {
+        return list("status = :status", Parameters.with("status", null));
     }
 }

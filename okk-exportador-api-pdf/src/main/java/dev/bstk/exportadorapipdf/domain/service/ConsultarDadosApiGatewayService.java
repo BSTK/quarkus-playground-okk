@@ -12,6 +12,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class ConsultarDadosApiGatewayService {
@@ -33,6 +34,7 @@ public class ConsultarDadosApiGatewayService {
 
 
     /// TODO: CASO ERRO, INSERIR NA TABELA DE DADOS PARA SEREM REPROCESSADOS
+    @Transactional
     public void consultarDados() {
         final ConsultaApiRequest request = requestParser.request();
         final ConsultaApiResponse response = consultaDadosGatewayApi.apis(request);
@@ -40,7 +42,7 @@ public class ConsultarDadosApiGatewayService {
         /// TODO: REFATORAR PARA FICAR GENÉRICO
         final GeniusEndpointSearchConteudoPdf geniusEndpointSearchConteudoPdf = conteudoPdfParser.pdf(response);
 
-        final ConteudoPdf<GeniusEndpointSearchConteudoPdf> conteudoPdf = new ConteudoPdf<>();
+        final ConteudoPdf conteudoPdf = new ConteudoPdf();
         conteudoPdf.setDados(geniusEndpointSearchConteudoPdf);
 
         geniusEndpointSearchConteudoPdfRepository.persist(conteudoPdf);

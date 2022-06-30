@@ -5,17 +5,17 @@ import java.io.Serializable;
 
 public class GeniusEndpointSearchConteudoPdf implements Serializable {
 
-    private File fotoAlbum;
+    private String fotoAlbum;
     private String musica;
     private String artista;
     private String album;
     private String ano;
 
-    public File getFotoAlbum() {
+    public String getFotoAlbum() {
         return fotoAlbum;
     }
 
-    public void setFotoAlbum(File fotoAlbum) {
+    public void setFotoAlbum(String fotoAlbum) {
         this.fotoAlbum = fotoAlbum;
     }
 

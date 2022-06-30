@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "CONTEUDO_PDF")
-public class ConteudoPdf<T> implements Serializable {
+public class ConteudoPdf implements Serializable {
 
     @Id
     @GeneratedValue
@@ -29,7 +29,7 @@ public class ConteudoPdf<T> implements Serializable {
 
     @Column(columnDefinition = "jsonb")
     @Convert(converter = ConteudoPdfConverter.class)
-    private T dados;
+    private Object dados;
 
     @PrePersist
     protected void persist() {
@@ -75,11 +75,11 @@ public class ConteudoPdf<T> implements Serializable {
         this.status = status;
     }
 
-    public T getDados() {
+    public Object getDados() {
         return dados;
     }
 
-    public void setDados(T dados) {
+    public void setDados(Object dados) {
         this.dados = dados;
     }
 
@@ -87,7 +87,7 @@ public class ConteudoPdf<T> implements Serializable {
     public boolean equals(Object o) {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
-        ConteudoPdf<?> that = (ConteudoPdf<?>) o;
+        ConteudoPdf that = (ConteudoPdf) o;
         return id.equals(that.id);
     }
 

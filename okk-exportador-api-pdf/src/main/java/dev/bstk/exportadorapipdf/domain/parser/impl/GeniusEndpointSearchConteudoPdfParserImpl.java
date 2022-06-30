@@ -69,7 +69,7 @@ public class GeniusEndpointSearchConteudoPdfParserImpl implements ConteudoPdfPar
             conteudoPdf.setAlbum(dado.getAlbum());
             conteudoPdf.setMusica(dado.getMusica());
             conteudoPdf.setArtista(dado.getArtista());
-            conteudoPdf.setFotoAlbum(new File(dado.getImage()));
+            conteudoPdf.setFotoAlbum(dado.getImage());
 
             return conteudoPdf;
         } catch (JsonProcessingException ex) {
