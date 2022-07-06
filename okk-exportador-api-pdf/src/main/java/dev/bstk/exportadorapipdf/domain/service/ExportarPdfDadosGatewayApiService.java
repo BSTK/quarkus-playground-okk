@@ -32,8 +32,13 @@ public class ExportarPdfDadosGatewayApiService {
     @Transactional
     public void exportar() {
         final List<ConteudoPdf> conteudoPdfs = conteudoPdfRepository.pdfsParaExportar();
+        if (conteudoPdfs.isEmpty()) {
+            LOG.warn("** NÃO HÁ PDF PARA EXPORTAR! **");
+            return;
+        }
+
         for (ConteudoPdf conteudo : conteudoPdfs) {
-            final GeniusEndpointSearchConteudoPdf dados = (GeniusEndpointSearchConteudoPdf) conteudo.getDados();
+            final GeniusEndpointSearchConteudoPdf dados = conteudo.getDados();
             final URL templateHtmlResource = ExportarPdfDadosGatewayApiService.class.getResource(geniusTemplateHtml);
 
             if (Objects.isNull(templateHtmlResource)) {
@@ -49,14 +54,15 @@ public class ExportarPdfDadosGatewayApiService {
                 LOG.info("HTML INICIO -> {}", templateHtml);
 
                 final String templateHtmlParseado = templateHtml
-                    .replace("$FOTO_ALBUM", dados.getFotoAlbum())
-                    .replace("$MUSICA", dados.getMusica())
                     .replace("$ANO", dados.getAno())
+                    .replace("$ALBUM", dados.getAlbum())
+                    .replace("$MUSICA", dados.getMusica())
                     .replace("$ARTISTA", dados.getArtista())
-                    .replace("$ALBUM", dados.getAlbum());
+                    .replace("$FOTO_ALBUM", dados.getFotoAlbum());
 
                 LOG.info("HTML FINAL -> {}", templateHtmlParseado);
             } catch (Exception ex) {
+                /// TODO: TRATAR EXCEPTION
                 ex.printStackTrace();
             }
         }

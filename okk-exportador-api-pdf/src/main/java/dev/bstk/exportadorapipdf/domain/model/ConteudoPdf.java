@@ -1,5 +1,11 @@
 package dev.bstk.exportadorapipdf.domain.model;
 
+import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
+import io.quarkiverse.hibernate.types.json.JsonBinaryType;
+import io.quarkiverse.hibernate.types.json.JsonTypes;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -8,6 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "CONTEUDO_PDF")
+@TypeDef(name = JsonTypes.JSON_BIN, typeClass = JsonBinaryType.class)
 public class ConteudoPdf implements Serializable {
 
     @Id
@@ -22,20 +29,19 @@ public class ConteudoPdf implements Serializable {
     @Column(name = "DATA_UPDATE")
     private LocalDateTime dataUpdate;
 
-    @NotNull
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private ConteudoPdfStatus status;
 
-    @Column(columnDefinition = "jsonb")
-    @Convert(converter = ConteudoPdfConverter.class)
-    private Object dados;
+    @Type(type = JsonTypes.JSON_BIN)
+    @Column(name = "DADOS", columnDefinition = JsonTypes.JSON_BIN)
+    private GeniusEndpointSearchConteudoPdf dados;
 
     @PrePersist
     protected void persist() {
         setDataInsert(LocalDateTime.now());
         setDataUpdate(LocalDateTime.now());
-        setStatus(null);
+        setStatus(ConteudoPdfStatus.PARA_PROCESSAR);
     }
 
     @PreUpdate
@@ -75,11 +81,11 @@ public class ConteudoPdf implements Serializable {
         this.status = status;
     }
 
-    public Object getDados() {
+    public GeniusEndpointSearchConteudoPdf getDados() {
         return dados;
     }
 
-    public void setDados(Object dados) {
+    public void setDados(GeniusEndpointSearchConteudoPdf dados) {
         this.dados = dados;
     }
 

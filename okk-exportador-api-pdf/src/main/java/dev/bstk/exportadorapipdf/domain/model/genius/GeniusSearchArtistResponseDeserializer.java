@@ -43,8 +43,10 @@ public class GeniusSearchArtistResponseDeserializer extends StdDeserializer<Geni
                 dadoArtista.setImage(json.get(GENIUS_SEARCH_ARTIST_PATH_RESULT).get("header_image_thumbnail_url").textValue());
                 dadoArtista.setArtista(json.get(GENIUS_SEARCH_ARTIST_PATH_RESULT).get("primary_artist").get("name").textValue());
 
-                final int ano = json.get(GENIUS_SEARCH_ARTIST_PATH_RESULT).get("release_date_components").get("year").intValue();
-                dadoArtista.setAno(String.valueOf(ano));
+                if (json.get(GENIUS_SEARCH_ARTIST_PATH_RESULT).has("release_date_components")) {
+                    final int ano = json.get(GENIUS_SEARCH_ARTIST_PATH_RESULT).get("release_date_components").get("year").intValue();
+                    dadoArtista.setAno(String.valueOf(ano));
+                }
 
                 dados.add(dadoArtista);
             }

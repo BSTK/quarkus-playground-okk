@@ -2,34 +2,8 @@
   "appCliente": "Exportador PDF",
   "apis": [
     {
-      "nomeApiExterna": "Genius: Songs",
-      "url": "https://genius.p.rapidapi.com/artists/16775/songs",
-      "headers": {
-        "X-RapidAPI-Key": "386fb7f127msh1a05d6cfe648366p1662d5jsn91546411e79e",
-        "X-RapidAPI-Host": "genius.p.rapidapi.com"
-      },
-      "queryParams": {
-        "age": "1",
-        "per_page": "3"
-      }
-    },
-
-    {
       "nomeApiExterna": "Genius: Search",
       "url": "https://genius.p.rapidapi.com/search",
-      "headers": {
-        "X-RapidAPI-Key": "386fb7f127msh1a05d6cfe648366p1662d5jsn91546411e79e",
-        "X-RapidAPI-Host": "genius.p.rapidapi.com"
-      },
-      "queryParams": {
-        "age": "1",
-        "per_page": "3"
-      }
-    },
-
-    {
-      "nomeApiExterna": "Genius: Artist",
-      "url": "https://genius.p.rapidapi.com/artists/{ID}",
       "headers": {
         "X-RapidAPI-Key": "386fb7f127msh1a05d6cfe648366p1662d5jsn91546411e79e",
         "X-RapidAPI-Host": "genius.p.rapidapi.com"
