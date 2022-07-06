@@ -2,17 +2,16 @@ package dev.bstk.exportadorapipdf.domain.parser.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import dev.bstk.exportadorapipdf.domain.parser.ConteudoPdfParser;
 import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdf;
 import dev.bstk.exportadorapipdf.domain.model.genius.GeniusSearchArtistResponse;
 import dev.bstk.exportadorapipdf.domain.model.genius.GeniusSearchArtistResponseDeserializer;
+import dev.bstk.exportadorapipdf.domain.parser.ConteudoPdfParser;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiDadosItemResponse;
 import dev.bstk.exportadorapipdf.gateway.response.ConsultaApiResponse;
 import dev.bstk.exportadorapipdf.helper.GeradorNumeroAleatorio;
 import dev.bstk.exportadorapipdf.helper.JSONHelper;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Objects;
