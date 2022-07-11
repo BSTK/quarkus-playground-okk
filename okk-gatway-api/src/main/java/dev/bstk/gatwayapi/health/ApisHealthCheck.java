@@ -1,6 +1,6 @@
 package dev.bstk.gatwayapi.health;
 
-import dev.bstk.gatwayapi.resource.ApisResource;
+import dev.bstk.gatwayapi.resource.HealtCheckResource;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 public class ApisHealthCheck implements HealthCheck {
 
     @Inject
-    protected ApisResource resource;
+    protected HealtCheckResource resource;
 
     @Override
     public HealthCheckResponse call() {

@@ -18,9 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/apis")
+@Tag(name = "Endpoint Apis")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "Endpoint Apis")
 public class ApisResource {
 
     @Inject
@@ -46,20 +46,5 @@ public class ApisResource {
         return Response
             .ok(consultaResponse)
             .build();
-    }
-
-    @GET
-    @Path("/up")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Operation(summary = "Retorna o estado do endpoint Api's")
-    @APIResponse(
-        responseCode = "200",
-        description = "Retorna 'UP' para quando o enpoint estiver respondendo Ok",
-        content = @Content(
-            mediaType = MediaType.TEXT_PLAIN
-        )
-    )
-    public Response ping() {
-        return Response.ok("up").build();
     }
 }
