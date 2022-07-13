@@ -62,6 +62,7 @@ public class ExportarPdfDadosGatewayApiService {
                     .replace("$ARTISTA", dados.getArtista())
                     .replace("$FOTO_ALBUM", dados.getFotoAlbum());
 
+                /// TODO: REFATORAR PASTA/NOME DO ARQUIVO
                 final String dataFormatada = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
                 final String caminhoCompletoArquivoPdf = String.format("/home/bruno-luz/okk-exportador-pdf-arquivos/arquivo-%s.pdf", dataFormatada);
 
