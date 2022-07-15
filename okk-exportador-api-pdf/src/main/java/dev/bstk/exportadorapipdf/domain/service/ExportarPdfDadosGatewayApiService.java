@@ -42,6 +42,8 @@ public class ExportarPdfDadosGatewayApiService {
         }
 
         for (ConteudoPdf conteudo : conteudoPdfs) {
+
+            /// TODO: REFATORAR PARA FICAR GENÉRICO
             final GeniusEndpointSearchConteudoPdf dados = conteudo.getDados();
             final URL templateHtmlResource = ExportarPdfDadosGatewayApiService.class.getResource(geniusTemplateHtml);
 
