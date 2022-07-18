@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "dataInsert": "2022-07-18T00:00:00",
+    "dataUpdate": "2022-07-18T00:00:00",
+    "status": "PARA_PROCESSAR",
+    "dados": {
+      "fotoAlbum": "https://api.com/algum/foto-a.png",
+      "musica": "Musica XYZ - A",
+      "artista": "Jack XYZ - A",
+      "album": "Album XYZ - A",
+      "ano": "2022"
+    }
+  },
+  {
+    "id": 2,
+    "dataInsert": "2022-07-18T00:00:00",
+    "dataUpdate": "2022-07-18T00:00:00",
+    "status": "PARA_PROCESSAR",
+    "dados": {
+      "fotoAlbum": "https://api.com/algum/foto-b.png",
+      "musica": "Musica XYZ - B",
+      "artista": "Jack XYZ - B",
+      "album": "Album XYZ - B",
+      "ano": "2022"
+    }
+  },
+  {
+    "id": 3,
+    "dataInsert": "2022-07-18T00:00:00",
+    "dataUpdate": "2022-07-18T00:00:00",
+    "status": "PARA_PROCESSAR",
+    "dados": {
+      "fotoAlbum": "https://api.com/algum/foto-c.png",
+      "musica": "Musica XYZ - C",
+      "artista": "Jack XYZ - C",
+      "album": "Album XYZ - C",
+      "ano": "2022"
+    }
+  }
+]

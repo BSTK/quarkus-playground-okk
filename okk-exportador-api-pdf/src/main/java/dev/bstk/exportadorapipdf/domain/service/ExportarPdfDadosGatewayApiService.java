@@ -57,10 +57,6 @@ public class ExportarPdfDadosGatewayApiService {
             }
 
             try (final InputStream inputStream = templateHtmlResource.openStream()) {
-                if (Objects.isNull(inputStream)) {
-                    throw new IllegalArgumentException("Não foi possivél ler arquivo de template html!");
-                }
-
                 final String templateHtmlParseado = templateHtmlParseado(inputStream, dados);
                 final String caminhoCompletoArquivoPdf = caminhoCompletoArquivoPdf();
 

@@ -1,6 +1,5 @@
 package dev.bstk.exportadorapipdf.domain.model.genius;
 
-import java.io.File;
 import java.io.Serializable;
 
 public class GeniusEndpointSearchConteudoPdf implements Serializable {
