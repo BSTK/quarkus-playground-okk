@@ -34,7 +34,7 @@ public class GeniusSearchArtistResponseDeserializer extends StdDeserializer<Geni
         final List<GeniusSearchArtistResponse.Dado> dados = new ArrayList<>();
         final Iterator<JsonNode> elements = jsonNode.get("response").get("hits").elements();
 
-        if (Objects.nonNull(elements) && elements.hasNext()) {
+        if (Objects.nonNull(elements)) {
             while (elements.hasNext()) {
                 final JsonNode json = elements.next();
                 final GeniusSearchArtistResponse.Dado dadoArtista = new GeniusSearchArtistResponse.Dado();
