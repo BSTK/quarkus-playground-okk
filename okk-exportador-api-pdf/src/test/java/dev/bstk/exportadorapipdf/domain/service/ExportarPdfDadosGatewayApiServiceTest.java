@@ -1,6 +1,7 @@
 package dev.bstk.exportadorapipdf.domain.service;
 
 import dev.bstk.exportadorapipdf.domain.model.genius.GeniusEndpointSearchConteudoPdfRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,5 +27,7 @@ class ExportarPdfDadosGatewayApiServiceTest {
     @DisplayName("Deve parar execução quando não houver nenhum pdf para ser exportado")
     void devePararExecucaoQuandoNaoHouverNenhumPdfParaSerExportado() {
         when(conteudoPdfRepository.pdfsParaExportar()).thenReturn(Collections.emptyList());
+
+        Assertions.assertDoesNotThrow(() -> exportarPdfDadosGatewayApiService.exportar());
     }
 }
