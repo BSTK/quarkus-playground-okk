@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -25,8 +26,12 @@ public class ExportarPdfDadosGatewayApiService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExportarPdfDadosGatewayApiService.class);
 
+
     @ConfigProperty(name = "exportadorpdf.arquivos.tempplatehtml")
     protected String geniusTemplateHtml;
+
+    @ConfigProperty(name = "exportadorpdf.arquivos.caminhopastasalvarpdf")
+    protected String caminhoPastaSalvarPdf;
 
     /// TODO: REFATORAR PARA FICAR GENÉRICO
     @Inject
@@ -56,17 +61,8 @@ public class ExportarPdfDadosGatewayApiService {
                     throw new IllegalArgumentException("Não foi possivél ler arquivo de template html!");
                 }
 
-                final String templateHtml = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                final String templateHtmlParseado = templateHtml
-                    .replace("$ANO", dados.getAno())
-                    .replace("$ALBUM", dados.getAlbum())
-                    .replace("$MUSICA", dados.getMusica())
-                    .replace("$ARTISTA", dados.getArtista())
-                    .replace("$FOTO_ALBUM", dados.getFotoAlbum());
-
-                /// TODO: REFATORAR PASTA/NOME DO ARQUIVO
-                final String dataFormatada = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
-                final String caminhoCompletoArquivoPdf = String.format("/home/bruno-luz/okk-exportador-pdf-arquivos/arquivo-%s.pdf", dataFormatada);
+                final String templateHtmlParseado = templateHtmlParseado(inputStream, dados);
+                final String caminhoCompletoArquivoPdf = caminhoCompletoArquivoPdf();
 
                 HtmlConverter.convertToPdf(templateHtmlParseado, new FileOutputStream(caminhoCompletoArquivoPdf));
             } catch (Exception ex) {
@@ -74,5 +70,24 @@ public class ExportarPdfDadosGatewayApiService {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private String templateHtmlParseado(final InputStream inputStream,
+                                        final GeniusEndpointSearchConteudoPdf dados) throws IOException {
+        final String templateHtml = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        return templateHtml
+            .replace("$ANO", dados.getAno())
+            .replace("$ALBUM", dados.getAlbum())
+            .replace("$MUSICA", dados.getMusica())
+            .replace("$ARTISTA", dados.getArtista())
+            .replace("$FOTO_ALBUM", dados.getFotoAlbum());
+    }
+
+    private String caminhoCompletoArquivoPdf() {
+        return String
+            .format(
+                "%s-%s.pdf",
+                caminhoPastaSalvarPdf,
+                DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()));
     }
 }
